@@ -6,35 +6,37 @@ USE bilabonnement;
 
 CREATE TABLE kunder(
                        kunde_id int auto_increment,
-                       kunde_navn varchar(50),
+                       kunde_fornavn varchar(50),
+                       kunde_efternavn varchar(50),
                        kunde_kontaktnummer int,
                        kunde_email varchar(25),
                        PRIMARY KEY(kunde_id));
 
-CREATE TABLE lejeaftaler(
-                            kontrakt_id int auto_increment,
-                            kunde_id int,
-                            aftaletype varbinary(25),
-                            kilometerpakke int,
-                            startdato varchar(25),
-                            slutdato varchar(25),
-                            PRIMARY KEY(kontrakt_id),
-                            FOREIGN KEY(kunde_id) REFERENCES kunder(kunde_id));
-
 CREATE TABLE lejebiler(
                           vognnummer int,
-                          kontrakt_id int,
                           stelnummer int,
                           fabrikant varchar(25),
                           model varchar(50),
                           udstyrspakke varchar(25),
                           lejepris double,
+                          købspris double,
                           stålpris double,
                           co2_niveau double,
                           reg_afgift double,
                           status varchar(25),
-                          PRIMARY KEY(vognnummer),
-                          FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));
+                          PRIMARY KEY(vognnummer));
+
+CREATE TABLE lejeaftaler(
+                            kontrakt_id int auto_increment,
+                            kunde_id int,
+                            vognnummer int,
+                            aftaletype varbinary(25),
+                            kilometerpakke int,
+                            startdato varchar(25),
+                            slutdato varchar(25),
+                            PRIMARY KEY(kontrakt_id),
+                            FOREIGN KEY(kunde_id) REFERENCES kunder(kunde_id),
+                            FOREIGN KEY(vognnummer) REFERENCES lejebiler(vognnummer));
 
 CREATE TABLE skadesrapporter(
                                 kontrakt_id int,

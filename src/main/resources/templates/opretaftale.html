@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/opretaftale" method="post">
+    <span th:text="${kunde.fornavn}"></span><span th:text="${kunde.efternavn}"></span>
+    <span th:text="${bil.fabrikant}"></span><span th:text="${bil.model}"></span>
+
+    <input type="hidden" name="kundeID" th:value="${kunde.kundeID}">
+    <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
+
+    <label for="aftaletype-felt">Unlimited:</label>
+    <input type="checkbox" id="aftaletype-felt" name="aftaletype">
+
+    <label for="kilometerpakke-felt">Kilometerpakke</label>
+    <input id="kilometerpakke-felt" name="kilometerpakke">
+
+    <label for="startdato-felt">Startdato:</label>
+    <input type="date" id="startdato-felt" name="startdato">
+
+    <label for="slutdato-felt">slutdato:</label>
+    <input type="date" id="slutdato-felt" name="slutdato">
+
+</form>
+
+</body>
+</html>

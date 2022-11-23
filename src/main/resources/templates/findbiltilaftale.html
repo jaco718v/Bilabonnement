@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find bil</title>
+</head>
+<body>
+<form action="/findbiltilaftale" method="post">
+  <input type="hidden" name="kundeID" th:value="${kundeID}">
+
+  <label for="fabrikant-felt">Fabrikant:</label>
+  <input id="fabrikant-felt" name="fabrikant">
+
+  <button type="submit">Søg efter fabrikant</button>
+</form>
+<h1>Biler til rådighed::</h1>
+<table>
+  <tr th:each="bil : ${session.bilListe}">
+    <td th:text="${bil.fabrikant}"></td>
+    <td th:text="${bil.model}"></td>
+    <td th:text="${bil.vognnummer}"></td>
+    <td th:text="${bil.lejepris}"></td>
+    <td><a th:href="@{'/savevognnummer/'+${bil.vognnummer}}">Vælg</a></td>
+  </tr>
+</table>
+</body>
+</html>

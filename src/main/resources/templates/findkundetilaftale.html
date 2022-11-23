@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find kunde</title>
+</head>
+<body>
+<form action="/findkundetilaftale" method="post">
+    <label for="fornavn-felt">Fornavn:</label>
+    <input id="fornavn-felt" name="fornavn">
+
+    <button type="submit">Søg efter navn</button>
+</form>
+<h1>Kunder:</h1>
+<table>
+<tr th:each="kunde : ${session.kundeListe}">
+    <td th:text="${kunde.fornavn}"></td>
+    <td th:text="${kunde.efternavn}"></td>
+    <td th:text="${kunde.kontaktnummer}"></td>
+    <td th:text="${kunde.email}"></td>
+    <td><a th:href="@{'/saveid/'+ ${kunde.kundeID}}">Vælg</a></td>
+</tr>
+</table>
+</body>
+</html>
