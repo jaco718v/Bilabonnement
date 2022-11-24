@@ -86,6 +86,31 @@ public class BilabonnementRepository {
     return null;
   }
 
+  public ArrayList<Lejebil> lavBilListe(ResultSet resultSet){
+    ArrayList<Lejebil> bilListe = new ArrayList<>();
+    try{
+    while(resultSet.next()){
+      int vognnummer = resultSet.getInt(1);
+      int stelnummer= resultSet.getInt(2);
+      String fabrikant = resultSet.getString(3);
+      String model = resultSet.getString(4);
+      String udstyrspakke = resultSet.getString(5);
+      double købspris = resultSet.getDouble(6);
+      double lejepris = resultSet.getDouble(7);
+      double stålpris = resultSet.getDouble(8);
+      double co2Niveau = resultSet.getDouble(9);
+      double regAfgift = resultSet.getDouble(10);
+      String status = resultSet.getString(11);
+      bilListe.add(new Lejebil(vognnummer,stelnummer,fabrikant,model,
+          udstyrspakke,købspris,lejepris,stålpris,co2Niveau,regAfgift,status));
+    }
+    } catch (SQLException e){
+      System.out.println("Couldn't connect to db");
+      e.printStackTrace();
+    }
+    return  bilListe;
+  }
+
   public Lejebil findBilMedVognnummer(int vognnummer){
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -93,21 +118,12 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1,vognnummer);
       ResultSet resultSet = pstm.executeQuery();
-      if(resultSet.next()){
-        int stelnummer= resultSet.getInt(2);
-        String fabrikant = resultSet.getString(3);
-        String model = resultSet.getString(4);
-        String udstyrspakke = resultSet.getString(5);
-        double købspris = resultSet.getDouble(6);
-        double lejepris = resultSet.getDouble(7);
-        double stålpris = resultSet.getDouble(8);
-        double co2Niveau = resultSet.getDouble(9);
-        double regAfgift = resultSet.getDouble(10);
-        String status = resultSet.getString(11);
-        return (new Lejebil(vognnummer,stelnummer,fabrikant,model,
-            udstyrspakke,købspris,lejepris,stålpris,co2Niveau,regAfgift,status));
+      ArrayList<Lejebil> bilListe = lavBilListe(resultSet);
+      if (!bilListe.isEmpty()){
+        return bilListe.get(1);
       }
-    } catch (SQLException e){
+      }
+     catch (SQLException e){
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
@@ -122,20 +138,7 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1,fabrikant);
       ResultSet resultSet = pstm.executeQuery();
-      while(resultSet.next()){
-        int vognnummer = resultSet.getInt(1);
-        int stelnummer= resultSet.getInt(2);
-        String model = resultSet.getString(4);
-        String udstyrspakke = resultSet.getString(5);
-        double købspris = resultSet.getDouble(6);
-        double lejepris = resultSet.getDouble(7);
-        double stålpris = resultSet.getDouble(8);
-        double co2Niveau = resultSet.getDouble(9);
-        double regAfgift = resultSet.getDouble(10);
-        String status = resultSet.getString(11);
-        bilListe.add(new Lejebil(vognnummer,stelnummer,fabrikant,model,
-            udstyrspakke,købspris,lejepris,stålpris,co2Niveau,regAfgift,status));
-      }
+      bilListe = lavBilListe(resultSet);
     } catch (SQLException e){
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
@@ -190,6 +193,20 @@ public class BilabonnementRepository {
       e.printStackTrace();
     }
   }
+
+  public ArrayList<Lejebil> getUdlejedeBiler(){
+    ArrayList<Lejebil> udlejetBilListe = new ArrayList<>();
+    try {
+      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
+      String sqlQuery = "SELECT * FROM lejebiler WHERE status=udlejet";
+      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
+      ResultSet resultSet = pstm.executeQuery();
+      udlejetBilListe = lavBilListe(resultSet);
+    }catch (SQLException e){
+    System.out.println("Couldn't connect to db");
+    e.printStackTrace();
+  }
+    return  udlejetBilListe;
   }
 
 }

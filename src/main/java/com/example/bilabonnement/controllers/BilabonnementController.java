@@ -4,6 +4,7 @@ package com.example.bilabonnement.controllers;
 import com.example.bilabonnement.model.Kunde;
 import com.example.bilabonnement.model.Lejebil;
 import com.example.bilabonnement.repositories.BilabonnementRepository;
+import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,14 @@ import java.util.ArrayList;
 public class BilabonnementController {
 
   BilabonnementRepository bilabonnementRepository;
+  BilabonnementServices bilabonnementServices;
 
-  public BilabonnementController(BilabonnementRepository b){
-    bilabonnementRepository = b;
+  public BilabonnementController(BilabonnementRepository r, BilabonnementServices s){
+    bilabonnementRepository = r;
+    bilabonnementServices = s;
   }
+
+
 
 
   @GetMapping("/")
@@ -112,5 +117,15 @@ public class BilabonnementController {
     bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
     return "/";
   }
-  
+  @GetMapping("/hvisudlejedebiler")
+  public String hvisUdlejedeBiler(Model model){
+  ArrayList<Lejebil> bilListe  = bilabonnementRepository.getUdlejedeBiler();
+  int antalBiler = bilListe.size();
+  double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
+  model.addAttribute("bilListe",bilListe);
+  model.addAttribute("antalBiler",antalBiler);
+  model.addAttribute("samletIndtægt",samletIndtægt);
+
+    return "udlejedebiler";
+  }
 }
