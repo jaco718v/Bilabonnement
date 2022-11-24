@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skadesrapport</title>
+</head>
+<body>
+
+<form action="/" method="post">
+    <label for="id-felt">Kontrakt-id:</label>
+    <input id="id-felt" name="kontraktID" required>
+    <span>Skal udfyldes.</span> <br> <br>
+
+
+    <label for="kilometer-felt">Overkørte Kilometer:</label>
+    <input id="kilometer-felt" name="kilometer">
+    <span>1,5 kr. pr. km.</span> <br> <br>
+
+    <label for="service-felt">Manglende service:</label>
+    <input type="checkbox" id="service-felt" name="service">
+    <span>2.500kr</span> <br><br>
+
+    <label for="rengoering-felt">Manglende rengøring:</label>
+    <input type="checkbox" id="rengoering-felt" name="rengoering">
+    <span>1.000kr</span> <br><br>
+
+    <label for="daekskifte-felt">Manglende dækskifte:</label>
+    <input type="checkbox" id="daekskifte-felt" name="daekskifte">
+    <span>999kr</span> <br><br>
+
+
+    <label for="lakfelt">Lakfelt skader:</label>
+    <input id="lakfelt" name="lakfelt">
+    <span>1.500kr pr. skade</span> <br><br>
+
+    <label for="alu-felt">Alufælg skader:</label>
+    <input id="alu-felt" name="alufaelg">
+    <span>400kr pr. skade</span> <br><br>
+
+    <label for="stenslag-felt">Antal stenslag:</label>
+    <input id="stenslag-felt" name="stenslag">
+    <span>650 kr. for første, 300kr. efterfølgende</span> <br><br>
+
+    <button type="submit">Registrer</button>
+</form>
+
+</body>
+</html>

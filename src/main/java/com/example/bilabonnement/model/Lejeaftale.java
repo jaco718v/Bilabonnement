@@ -5,6 +5,6 @@ public class Lejeaftale {
   private int kilometerpakke;
   private String startdato;
   private String slutdato;
-  private Kunde kunde;
-  private Lejebil lejebil;
+  private int kundeID;
+  private int vognnummer;
 }

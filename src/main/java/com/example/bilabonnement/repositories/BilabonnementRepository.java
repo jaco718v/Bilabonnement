@@ -143,7 +143,7 @@ public class BilabonnementRepository {
     return bilListe;
   }
 
-  public void opretLejeaftaleDB(int kundeID, int vognnummer, boolean aftaletype, int kilometerpakke,
+  public void opretLejeaftaleDB(int kundeID, int vognnummer, String aftaletype, int kilometerpakke,
                                 String startdato, String slutdato){
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -154,9 +154,7 @@ public class BilabonnementRepository {
 
       psmt.setInt(1,kundeID);
       psmt.setInt(2,vognnummer);
-      if(aftaletype){
-        psmt.setString(3,"Unlimited");
-      }else psmt.setString(3,"Limited");
+      psmt.setString(3,aftaletype);
       psmt.setInt(4,kilometerpakke);
       psmt.setString(5,startdato);
       psmt.setString(6,slutdato);
@@ -166,6 +164,32 @@ public class BilabonnementRepository {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
+  }
+
+  public void opretSkadesrapportDB(int kontraktID, int overkørteKilometer,
+                                   boolean manglendeService, boolean manglendeRengøring,
+                                   boolean manglendeDækskifte, int lakfeltSkade,
+                                   int alufælgSkade, int stenslagSkade){
+    try {
+      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
+      String sqlInsert = "INSERT INTO skadesrapporter(kontrakt_id, overkørte_kilometer, manglende_service, manglende_rengøring, manglende_dækskifte, lakfelt_skade, alufælg_skade, stenslag_skade)" +
+          "VALUES(?,?,?,?,?,?,?,?)";
+      PreparedStatement psmt = conn.prepareStatement(sqlInsert);
+      psmt.setInt(1,kontraktID);
+      psmt.setInt(2,overkørteKilometer);
+      psmt.setBoolean(3,manglendeService);
+      psmt.setBoolean(4,manglendeRengøring);
+      psmt.setBoolean(5,manglendeDækskifte);
+      psmt.setInt(6,lakfeltSkade);
+      psmt.setInt(7,alufælgSkade);
+      psmt.setInt(8,stenslagSkade);
+
+      psmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Couldn't connect to db");
+      e.printStackTrace();
+    }
+  }
   }
 
 }

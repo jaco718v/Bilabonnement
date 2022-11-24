@@ -13,8 +13,10 @@
     <input type="hidden" name="kundeID" th:value="${kunde.kundeID}">
     <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
 
-    <label for="aftaletype-felt">Unlimited:</label>
-    <input type="checkbox" id="aftaletype-felt" name="aftaletype">
+    <label for="Unlimited">Unlimited:</label>
+    <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited">
+    <label for="Limited">Limited:</label>
+    <input type="radio" id="Limited" name="aftaletype" value="Limited">
 
     <label for="kilometerpakke-felt">Kilometerpakke</label>
     <input id="kilometerpakke-felt" name="kilometerpakke">
@@ -24,6 +26,8 @@
 
     <label for="slutdato-felt">slutdato:</label>
     <input type="date" id="slutdato-felt" name="slutdato">
+
+    <button type="submit">Opret</button>
 
 </form>
 

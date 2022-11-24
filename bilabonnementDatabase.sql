@@ -43,10 +43,10 @@ CREATE TABLE skadesrapporter(
                                 overkørte_kilometer int,
                                 manglende_service boolean,
                                 manglende_rengøring boolean,
-                                manglende_døkskifte boolean,
-                                lakfelt int,
-                                alufælg int,
-                                stenslag int);
+                                manglende_dækskifte boolean,
+                                lakfelt_skade int,
+                                alufælg_skade int,
+                                stenslag_skade int);
 
 CREATE TABLE forhåndsaftale(
                                kontrakt_id int,

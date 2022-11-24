@@ -93,10 +93,24 @@ public class BilabonnementController {
 
   @PostMapping("/opretaftale")
   public String opretAftale( @RequestParam("kundeID") int kundeID, @RequestParam("vognnummer") int vognnummer,
-                            @RequestParam("aftaletype") boolean aftaletype, @RequestParam("kilometerpakke") int kilometerpakke,
+                            @RequestParam("aftaletype") String aftaletype, @RequestParam("kilometerpakke") int kilometerpakke,
                             @RequestParam("startdato") String startdato, @RequestParam("slutdato") String slutdato){
     bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, kilometerpakke, startdato, slutdato);
     return "forside";
   }
 
+  @GetMapping("/opretskadesrapport")
+  public String showOpretSkadesrapport(){
+    return "opretskadesrapport";
+  }
+
+  @PostMapping("/opretskadesrapport")
+  public String opretSkadesrapport(@RequestParam("kontraktID") int kontraktID, @RequestParam("kilometer") int overkørteKilometer,
+                                   @RequestParam("service") boolean manglendeService, @RequestParam("rengoering") boolean manglendeRengøring,
+                                   @RequestParam("daekskifte") boolean manglendeDækskifte, @RequestParam("lakfelt") int lakfeltSkade,
+                                   @RequestParam("alufaelg") int alufælgSkade, @RequestParam("stenslag") int stenslagSkade){
+    bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
+    return "/";
+  }
+  
 }
