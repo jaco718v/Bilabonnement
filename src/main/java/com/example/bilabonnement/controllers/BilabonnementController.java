@@ -93,6 +93,8 @@ public class BilabonnementController {
   public String showOpretAftale(HttpSession session ,Model model){
     model.addAttribute("kunde",bilabonnementRepository.findKundeMedID((int)session.getAttribute("kundeID")));
     model.addAttribute("bil", bilabonnementRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
+    model.addAttribute("datoNu",bilabonnementServices.getDato());
+    model.addAttribute("datoFemMåneder",bilabonnementServices.getDatoOmFemMåneder());
     return "opretaftale";
   }
 
@@ -115,8 +117,22 @@ public class BilabonnementController {
                                    @RequestParam("daekskifte") boolean manglendeDækskifte, @RequestParam("lakfelt") int lakfeltSkade,
                                    @RequestParam("alufaelg") int alufælgSkade, @RequestParam("stenslag") int stenslagSkade){
     bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
+
     return "/";
   }
+
+  @GetMapping("/hvisbillager")
+  public String hvisBilLager(Model model){
+    ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilLager();
+    int antalBiler = bilListe.size();
+    double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
+    model.addAttribute("bilListe",bilListe);
+    model.addAttribute("antalBiler",antalBiler);
+    model.addAttribute("samletIndtægt",samletIndtægt);
+
+    return "lager";
+  }
+
   @GetMapping("/hvisudlejedebiler")
   public String hvisUdlejedeBiler(Model model){
   ArrayList<Lejebil> bilListe  = bilabonnementRepository.getUdlejedeBiler();
@@ -127,5 +143,12 @@ public class BilabonnementController {
   model.addAttribute("samletIndtægt",samletIndtægt);
 
     return "udlejedebiler";
+  }
+
+  @GetMapping("/meldafleveret/{id}")
+  public String meldBilAfleveret(@PathVariable("id") int vognnummer){
+    bilabonnementRepository.meldBilAfleveretDB(vognnummer);
+    // <td><a th:href="@{'/meldafleveret/'+${bil.vognnummer}}">Meld bil afleveret</a></td> //Indsæt i hvislejeaftaler
+    return "redirect:/hvislejeaftaler";
   }
 }

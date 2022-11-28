@@ -22,10 +22,10 @@
     <input id="kilometerpakke-felt" name="kilometerpakke">
 
     <label for="startdato-felt">Startdato:</label>
-    <input type="date" id="startdato-felt" name="startdato">
+    <input type="date" id="startdato-felt" name="startdato" th:value="${datoNu}">
 
     <label for="slutdato-felt">slutdato:</label>
-    <input type="date" id="slutdato-felt" name="slutdato">
+    <input type="date" id="slutdato-felt" name="slutdato" th:value="${datoFemMåneder}">
 
     <button type="submit">Opret</button>
 

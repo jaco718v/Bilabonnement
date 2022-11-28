@@ -2,6 +2,7 @@ package com.example.bilabonnement.model;
 
 public class Skadesrapport {
   private int kontraktID;
+  private int rapportID;
   private int overkørteKilometer;
   private boolean manglendeService;
   private boolean manglendeRengøring;
@@ -10,7 +11,16 @@ public class Skadesrapport {
   private int alufælgSkade;
   private int stenslagSkade;
 
-  public Skadesrapport() {
+  public Skadesrapport(int kontraktID, int rapportID, int overkørteKilometer, boolean manglendeService, boolean manglendeRengøring, boolean manglendeDækskifte, int lakfeltSkade, int alufælgSkade, int stenslagSkade) {
+    this.kontraktID = kontraktID;
+    this.rapportID = rapportID;
+    this.overkørteKilometer = overkørteKilometer;
+    this.manglendeService = manglendeService;
+    this.manglendeRengøring = manglendeRengøring;
+    this.manglendeDækskifte = manglendeDækskifte;
+    this.lakfeltSkade = lakfeltSkade;
+    this.alufælgSkade = alufælgSkade;
+    this.stenslagSkade = stenslagSkade;
   }
 
   public int getOverkørteKilometer() {
@@ -67,5 +77,13 @@ public class Skadesrapport {
 
   public void setStenslagSkade(int stenslagSkade) {
     this.stenslagSkade = stenslagSkade;
+  }
+
+  public int getKontraktID() {
+    return kontraktID;
+  }
+
+  public int getRapportID() {
+    return rapportID;
   }
 }

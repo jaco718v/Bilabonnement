@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lager</title>
+</head>
+<body>
+<h1>Ledige Biler:</h1>
+<table>
+  <tr th:each="bil : ${bilListe}">
+    <td th:text="${bil.fabrikant}"></td>
+    <td th:text="${bil.model}"></td>
+    <td th:text="${bil.vognnummer}"></td>
+    <td th:text="${bil.lejepris}"></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -24,6 +24,7 @@ CREATE TABLE lejebiler(
                           co2_niveau double,
                           reg_afgift double,
                           status varchar(25),
+                          farve varchar(25),
                           PRIMARY KEY(vognnummer));
 
 CREATE TABLE lejeaftaler(
@@ -40,16 +41,33 @@ CREATE TABLE lejeaftaler(
 
 CREATE TABLE skadesrapporter(
                                 kontrakt_id int,
+                                rapport_id int auto_increment,
                                 overkørte_kilometer int,
                                 manglende_service boolean,
                                 manglende_rengøring boolean,
                                 manglende_dækskifte boolean,
                                 lakfelt_skade int,
                                 alufælg_skade int,
-                                stenslag_skade int);
+                                stenslag_skade int,
+                                PRIMARY KEY(rapport_id));
+
+CREATE TABLE skadesafgifter(
+                               rapport_id int,
+                               afgift_overkørte_kilometer double,
+                               afgift_manglende_service double,
+                               afgift_manglende_rengøring double,
+                               afgift_manglende_dækskifte double,
+                               afgift_lakfelt_skade double,
+                               afgift_alufælg_skade double,
+                               afgift_stenslag_skade double,
+                               FOREIGN KEY(rapport_id) REFERENCES skadesrapporter(rapport_id));
 
 CREATE TABLE forhåndsaftale(
                                kontrakt_id int,
                                købspris double,
                                vilkår_periode varchar(50),
                                FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));
+
+
+
+
