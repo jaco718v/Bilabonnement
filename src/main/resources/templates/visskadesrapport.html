@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vis Skaderapport</title>
+</head>
+<body>
+<h1>Kontraktnummer: <span th:text="${skadesrapport.getKontraktID()}"></span></h1>
+
+<span>Overkørte kilometer</span>
+<span th:text="${skadesrapport.getOverkørteKilometer()}">Kilometer</span>
+<span th:text="${skadesafgifter.getAfgiftOverkørteKilometer()}">kr.</span> <br> <br>
+
+<span>Manglende service:</span>
+<span th:text="${skadesafgifter.getAfgiftManglendeService()}">kr</span> <br> <br>
+
+<span>Manglende rengøring</span>
+<span th:text="${skadesafgifter.getAfgiftManglendeRengøring()}">kr.</span> <br> <br>
+
+<span>Manglende dækskifte</span>
+<span th:text="${skadesafgifter.getAfgiftManglendeDækskifte()}">kr.</span> <br> <br>
+
+<span>Lakfelt:</span>
+<span th:text="${skadesrapport.getLakfeltSkade()}">tilfælde</span>
+<span th:text="${skadesafgifter.getAfgiftLakfeltSkade()}">kr.</span> <br> <br>
+
+<span>Alufælg</span>
+<span th:text="${skadesrapport.getAlufælgSkade()}">tilfælde</span>
+<span th:text="${skadesafgifter.getAfgiftAlufælgSkade()}">kr.</span> <br> <br>
+
+<span>Stenslag:</span>
+<span th:text="${skadesrapport.getStenslagSkade()}">tilfælde</span>
+<span th:text="${skadesafgifter.getAfgiftStenslagSkade()}">kr.</span> <br> <br>
+
+</body>
+</html>

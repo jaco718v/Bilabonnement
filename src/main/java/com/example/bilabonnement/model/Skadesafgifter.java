@@ -11,6 +11,9 @@ public class Skadesafgifter {
   private double afgiftStenslagSkade=0;
 
 
+
+  public Skadesafgifter(){}
+
   public Skadesafgifter(Skadesrapport skadesrapport){
     rapportID = skadesrapport.getRapportID();
     double kilometerPris = 1.5;
@@ -36,6 +39,38 @@ public class Skadesafgifter {
     double stenslagAfgiftEfterfølgende = 300;
     if(skadesrapport.getStenslagSkade()>0){
     afgiftStenslagSkade = skadesrapport.getStenslagSkade()*stenslagAfgiftEfterfølgende+stenslagAfgiftInitialExtra;}
+  }
+
+  public void setRapportID(int rapportID) {
+    this.rapportID = rapportID;
+  }
+
+  public void setAfgiftOverkørteKilometer(double afgiftOverkørteKilometer) {
+    this.afgiftOverkørteKilometer = afgiftOverkørteKilometer;
+  }
+
+  public void setAfgiftManglendeService(double afgiftManglendeService) {
+    this.afgiftManglendeService = afgiftManglendeService;
+  }
+
+  public void setAfgiftManglendeRengøring(double afgiftManglendeRengøring) {
+    this.afgiftManglendeRengøring = afgiftManglendeRengøring;
+  }
+
+  public void setAfgiftManglendeDækskifte(double afgiftManglendeDækskifte) {
+    this.afgiftManglendeDækskifte = afgiftManglendeDækskifte;
+  }
+
+  public void setAfgiftLakfeltSkade(double afgiftLakfeltSkade) {
+    this.afgiftLakfeltSkade = afgiftLakfeltSkade;
+  }
+
+  public void setAfgiftAlufælgSkade(double afgiftAlufælgSkade) {
+    this.afgiftAlufælgSkade = afgiftAlufælgSkade;
+  }
+
+  public void setAfgiftStenslagSkade(double afgiftStenslagSkade) {
+    this.afgiftStenslagSkade = afgiftStenslagSkade;
   }
 
   public int getRapportID() {
