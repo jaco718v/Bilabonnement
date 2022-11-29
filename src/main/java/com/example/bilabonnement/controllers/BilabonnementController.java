@@ -106,36 +106,40 @@ public class BilabonnementController {
     return "forside";
   }
 
-  @GetMapping("/opretskadesrapport")
-  public String showOpretSkadesrapport(){
+  @GetMapping("/opretskadesrapport/{id}")
+  public String showOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){
+    int kontraktID = bilabonnementRepository.findKontraktIDMedVognnummer(vognnummer);
+    model.addAttribute("vognnummer", vognnummer);
+    model.addAttribute("kontraktID",kontraktID);
     return "opretskadesrapport";
   }
 
   @PostMapping("/opretskadesrapport")
-  public String opretSkadesrapport(@RequestParam("kontraktID") int kontraktID, @RequestParam("kilometer") int overkørteKilometer,
+  public String opretSkadesrapport(@RequestParam("kontraktID") int kontraktID, @RequestParam("vognnummer") int vognnummer, @RequestParam("kilometer") int overkørteKilometer,
                                    @RequestParam("service") boolean manglendeService, @RequestParam("rengoering") boolean manglendeRengøring,
                                    @RequestParam("daekskifte") boolean manglendeDækskifte, @RequestParam("lakfelt") int lakfeltSkade,
                                    @RequestParam("alufaelg") int alufælgSkade, @RequestParam("stenslag") int stenslagSkade){
     bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
-
+    bilabonnementRepository.meldBilTjekketDB(vognnummer);
+    bilabonnementRepository.setAftaleBetaling(kontraktID);
     return "/";
   }
 
   @GetMapping("/hvisbillager")
   public String hvisBilLager(Model model){
-    ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilLager();
+    String status = "ledig";
+    ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
     int antalBiler = bilListe.size();
-    double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
     model.addAttribute("bilListe",bilListe);
     model.addAttribute("antalBiler",antalBiler);
-    model.addAttribute("samletIndtægt",samletIndtægt);
 
     return "lager";
   }
 
   @GetMapping("/hvisudlejedebiler")
   public String hvisUdlejedeBiler(Model model){
-  ArrayList<Lejebil> bilListe  = bilabonnementRepository.getUdlejedeBiler();
+  String status = "udlejet";
+  ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
   int antalBiler = bilListe.size();
   double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
   model.addAttribute("bilListe",bilListe);
@@ -150,5 +154,16 @@ public class BilabonnementController {
     bilabonnementRepository.meldBilAfleveretDB(vognnummer);
     // <td><a th:href="@{'/meldafleveret/'+${bil.vognnummer}}">Meld bil afleveret</a></td> //Indsæt i hvislejeaftaler
     return "redirect:/hvislejeaftaler";
+  }
+
+  @GetMapping("/bilertilskadesrapport")
+  public String bilerTilSkadesrapport(Model model){
+    String status = "afleveret";
+    ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
+    int antalBiler = bilListe.size();
+    model.addAttribute("bilListe",bilListe);
+    model.addAttribute("antalBiler",antalBiler);
+
+    return "bilertilskadesrapport";
   }
 }

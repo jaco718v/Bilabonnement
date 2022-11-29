@@ -7,10 +7,9 @@
 <body>
 
 <form action="/" method="post">
-    <label for="id-felt">Kontrakt-id:</label>
-    <input id="id-felt" name="kontraktID" required>
-    <span>Skal udfyldes.</span> <br> <br>
 
+    <input type="hidden" id="kontrakt-felt" name="kontraktID" th:value="${kontraktID}">
+    <input type="hidden" id="vognnummer-felt" name="vognnummer" th:value="${vognnummer}">
 
     <label for="kilometer-felt">Overkørte Kilometer:</label>
     <input id="kilometer-felt" name="kilometer">

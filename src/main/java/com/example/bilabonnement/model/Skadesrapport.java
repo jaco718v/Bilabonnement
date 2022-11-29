@@ -11,6 +11,7 @@ public class Skadesrapport {
   private int alufælgSkade;
   private int stenslagSkade;
 
+  public Skadesrapport(){}
   public Skadesrapport(int kontraktID, int rapportID, int overkørteKilometer, boolean manglendeService, boolean manglendeRengøring, boolean manglendeDækskifte, int lakfeltSkade, int alufælgSkade, int stenslagSkade) {
     this.kontraktID = kontraktID;
     this.rapportID = rapportID;

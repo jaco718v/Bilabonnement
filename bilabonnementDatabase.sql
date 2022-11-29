@@ -23,8 +23,8 @@ CREATE TABLE lejebiler(
                           stålpris double,
                           co2_niveau double,
                           reg_afgift double,
-                          status varchar(25),
-                          farve varchar(25),
+                          lejebil_status varchar(25),
+                          lejebil_farve varchar(25),
                           PRIMARY KEY(vognnummer));
 
 CREATE TABLE lejeaftaler(
@@ -35,6 +35,7 @@ CREATE TABLE lejeaftaler(
                             kilometerpakke int,
                             startdato varchar(25),
                             slutdato varchar(25),
+                            kontrakt_status varchar(25) DEFAULT 'igangværende',
                             PRIMARY KEY(kontrakt_id),
                             FOREIGN KEY(kunde_id) REFERENCES kunder(kunde_id),
                             FOREIGN KEY(vognnummer) REFERENCES lejebiler(vognnummer));
