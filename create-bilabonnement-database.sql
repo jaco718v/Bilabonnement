@@ -25,6 +25,7 @@ CREATE TABLE lejebiler(
                           reg_afgift double,
                           lejebil_status varchar(25),
                           lejebil_farve varchar(25),
+                          kilometerpakke int,
                           PRIMARY KEY(vognnummer));
 
 CREATE TABLE lejeaftaler(
@@ -32,7 +33,6 @@ CREATE TABLE lejeaftaler(
                             kunde_id int,
                             vognnummer int,
                             aftaletype varbinary(25),
-                            kilometerpakke int,
                             startdato varchar(25),
                             slutdato varchar(25),
                             kontrakt_status varchar(25) DEFAULT 'igangværende',

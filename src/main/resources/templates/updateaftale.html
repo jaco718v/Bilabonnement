@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update lejeaftale</title>
+</head>
+<body>
+<form action="/updateaftale" method="post">
+
+    <label for="kundeID-felt">KundeID:</label>
+    <input id="kundeID-felt" name="kundeID" th:value="${lejeaftale.kundeID}" disabled>
+
+    <label for="vognnummer-felt">Vognnummer</label>
+    <input id="vognnummer-felt" name="vognnummer" th:value="${lejeaftale.vognnummer}" disabled>
+
+    <label for="Unlimited">Unlimited:</label>
+    <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited">
+    <label for="Limited">Limited:</label>
+    <input type="radio" id="Limited" name="aftaletype" value="Limited">
+
+    <label for="startdato-felt">Startdato:</label>
+    <input type="date" id="startdato-felt" name="startdato" th:value="${lejeaftale.startDato}">
+
+    <label for="slutdato-felt">slutdato:</label>
+    <input type="date" id="slutdato-felt" name="slutdato" th:value="${lejeaftale.slutDato}">
+
+    <button type="submit">Updater</button>
+
+</form>
+</body>
+</html>

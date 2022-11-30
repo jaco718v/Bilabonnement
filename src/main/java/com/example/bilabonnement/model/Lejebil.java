@@ -12,10 +12,10 @@ public class Lejebil {
   private double co2Niveau;
   private double regAfgift;
   private String status;
-
   private String farve;
+  private int kilometerpakke;
 
-  public Lejebil(int vognnummer, int stelnummer, String fabrikant, String model, String udstyrspakke, double købspris, double lejepris, double stålpris, double co2Niveau, double regAfgift, String status, String farve) {
+  public Lejebil(int vognnummer, int stelnummer, String fabrikant, String model, String udstyrspakke, double købspris, double lejepris, double stålpris, double co2Niveau, double regAfgift, String status, String farve, int kilometerpakke) {
     this.vognnummer = vognnummer;
     this.stelnummer = stelnummer;
     this.fabrikant = fabrikant;
@@ -28,6 +28,7 @@ public class Lejebil {
     this.regAfgift = regAfgift;
     this.status = status;
     this.farve = farve;
+    this.kilometerpakke= kilometerpakke;
   }
 
   public int getVognnummer() {

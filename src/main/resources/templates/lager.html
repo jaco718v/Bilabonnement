@@ -7,6 +7,11 @@
 <body>
 <h1>Ledige Biler:</h1>
 <table>
+    <tr th:each="fabrikant : ${lavbestand}">
+        <td th:text="${fabrikant}">Alert: Lav bestand af: </td>
+    </tr>
+</table>
+<table>
   <tr th:each="bil : ${bilListe}">
     <td th:text="${bil.fabrikant}"></td>
     <td th:text="${bil.model}"></td>

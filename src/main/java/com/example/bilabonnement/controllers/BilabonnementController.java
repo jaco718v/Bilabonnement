@@ -6,10 +6,7 @@ import com.example.bilabonnement.repositories.BilabonnementRepository;
 import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -115,10 +112,32 @@ public class BilabonnementController {
 
   @PostMapping("/opretaftale")
   public String opretAftale( @RequestParam("kundeID") int kundeID, @RequestParam("vognnummer") int vognnummer,
-                            @RequestParam("aftaletype") String aftaletype, @RequestParam("kilometerpakke") int kilometerpakke,
+                            @RequestParam("aftaletype") String aftaletype,
                             @RequestParam("startdato") String startdato, @RequestParam("slutdato") String slutdato){
-    bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, kilometerpakke, startdato, slutdato);
+    bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, startdato, slutdato);
+    bilabonnementRepository.setBilUdlejetDB(vognnummer);
     return "forside";
+  }
+
+  @GetMapping("/updateaftale/{id}")
+  public String showUpdateAftale(@RequestParam("id") int kontraktID, Model model){
+    Lejeaftale lejeaftale = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID);
+    model.addAttribute("lejeaftale", lejeaftale);
+    return "updateaftale";
+  }
+
+  @PostMapping("/updateaftale")
+  public String updateAftale(@ModelAttribute Lejeaftale lejeaftale){
+    bilabonnementRepository.updateLejeaftale(lejeaftale);
+  return "redirect:/"; //Tilbage placeholder
+  }
+
+  @GetMapping("/sletaftale{id}")
+  public String sletLejeaftale(@PathVariable("id") int kontraktID){
+    int vognnummer = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID).getVognnummer();
+    bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
+    bilabonnementRepository.setBilLedigDB(vognnummer);
+    return "redirect:/"; //Tilbage placeholder
   }
 
   @GetMapping("/opretskadesrapport/{id}")
@@ -144,9 +163,11 @@ public class BilabonnementController {
   public String hvisBilLager(Model model){
     String status = "ledig";
     ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
+    ArrayList<String> lavBestand = bilabonnementRepository.findLavFabrikantBestand();
     int antalBiler = bilListe.size();
     model.addAttribute("bilListe",bilListe);
     model.addAttribute("antalBiler",antalBiler);
+    model.addAttribute("lavbestand",lavBestand);
 
     return "lager";
   }
@@ -168,7 +189,7 @@ public class BilabonnementController {
   public String meldBilAfleveret(@PathVariable("id") int vognnummer,@PathVariable("kundeID") int kundeID){
     bilabonnementRepository.setBilAfleveret(vognnummer);
     bilabonnementRepository.setAftaleVenter(vognnummer);
-    return "redirect:/viskundehistorik/{kundeID}"; //Virker måske ikke
+    return "redirect:/viskundehistorik/{kundeID}"; //Tilbage placeholder
   }
 
   @GetMapping("/bilertilskadesrapport")
@@ -215,6 +236,6 @@ public class BilabonnementController {
         bilabonnementRepository.getLejeaftalerViaKundeIDOgStatus(kundeID, afsluttetStatus);
     model.addAttribute("lejeaftalerAfsluttet",lejeaftalerAfsluttet);
 
-    return "kundehistorik";
+    return "viskundehistorik";
   }
 }

@@ -13,6 +13,7 @@
         <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
+        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
 </table>
 <h1>Lejeaftaler, der afventer skadesrapport</h1>
@@ -23,6 +24,7 @@
         <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
+        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
 </table>
 <h1>Igangværende lejeaftaler</h1>
@@ -34,6 +36,8 @@
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
         <td><a th:href="@{'/meldafleveret/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Meld bil afleveret</a></td>
+        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a th:href="@{'/sletaftale/'+${aftale.kontraktID}}">Slet aftale</a></td>
     </tr>
 </table>
 <h1>Afsluttede lejeaftaler</h1>
@@ -44,6 +48,7 @@
         <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
+        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
 </table>
 </body>
