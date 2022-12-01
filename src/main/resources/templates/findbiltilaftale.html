@@ -18,9 +18,9 @@
   <tr th:each="bil : ${session.bilListe}">
     <td th:text="${bil.fabrikant}"></td>
     <td th:text="${bil.model}"></td>
-    <td th:text="${bil.vognnummer}"></td>
     <td th:text="${bil.lejepris}"></td>
     <td th:text="${bil.farve}"></td>
+    <td th:text="${bil.kilometerpakke}"></td>
     <td><a th:href="@{'/savevognnummer/'+${bil.vognnummer}}">Vælg</a></td>
   </tr>
 </table>

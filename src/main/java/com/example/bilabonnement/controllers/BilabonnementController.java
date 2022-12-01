@@ -7,7 +7,6 @@ import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -47,8 +46,10 @@ public class BilabonnementController {
   @GetMapping("/findkundehistorik")
   public String showFindKundeHistorik(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
-    if(kundeListe==null) kundeListe = new ArrayList<>();
-    return "findkundetilaftale";
+    if(kundeListe==null)
+    {kundeListe = new ArrayList<>();
+    }
+    return "findkundehistorik";
   }
 
   @PostMapping("/findkundehistorik")
@@ -88,7 +89,7 @@ public class BilabonnementController {
 
   @PostMapping("/findbiltilaftale")
   public String findBilTilAftale(@RequestParam("fabrikant") String fabrikant,
-                                 HttpSession session, RedirectAttributes redirectAttributes){
+                                 HttpSession session){
     ArrayList<Lejebil> bilListe = bilabonnementRepository.findBilerFraFabrikant(fabrikant);
     session.setAttribute("bilListe",bilListe);
     return "redirect:/findbiltilaftale";
@@ -106,7 +107,8 @@ public class BilabonnementController {
     model.addAttribute("kunde",bilabonnementRepository.findKundeMedID((int)session.getAttribute("kundeID")));
     model.addAttribute("bil", bilabonnementRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
     model.addAttribute("datoNu",bilabonnementServices.getDato());
-    model.addAttribute("datoFemMåneder",bilabonnementServices.getDatoOmFemMåneder());
+    model.addAttribute("datoFireMaaneder",bilabonnementServices.getDatoOmFireMåneder());
+    model.addAttribute("datoFemMaaneder",bilabonnementServices.getDatoOmFemMåneder());
     return "opretaftale";
   }
 
@@ -114,13 +116,14 @@ public class BilabonnementController {
   public String opretAftale( @RequestParam("kundeID") int kundeID, @RequestParam("vognnummer") int vognnummer,
                             @RequestParam("aftaletype") String aftaletype,
                             @RequestParam("startdato") String startdato, @RequestParam("slutdato") String slutdato){
-    bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, startdato, slutdato);
+    String formateretSlutdato = bilabonnementServices.formaterDato(slutdato);
+    bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, startdato, formateretSlutdato);
     bilabonnementRepository.setBilUdlejetDB(vognnummer);
-    return "forside";
+    return "redirect:/";
   }
 
   @GetMapping("/updateaftale/{id}")
-  public String showUpdateAftale(@RequestParam("id") int kontraktID, Model model){
+  public String showUpdateAftale(@PathVariable("id") int kontraktID, Model model){
     Lejeaftale lejeaftale = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID);
     model.addAttribute("lejeaftale", lejeaftale);
     return "updateaftale";
@@ -132,7 +135,7 @@ public class BilabonnementController {
   return "redirect:/"; //Tilbage placeholder
   }
 
-  @GetMapping("/sletaftale{id}")
+  @GetMapping("/sletaftale/{id}")
   public String sletLejeaftale(@PathVariable("id") int kontraktID){
     int vognnummer = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID).getVognnummer();
     bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
@@ -229,7 +232,7 @@ public class BilabonnementController {
     String igangværendeStatus = "igangværende";
     ArrayList<Lejeaftale> lejeaftalerIgangværende =
         bilabonnementRepository.getLejeaftalerViaKundeIDOgStatus(kundeID, igangværendeStatus);
-    model.addAttribute("lejeaftalerIgangværende", lejeaftalerIgangværende);
+    model.addAttribute("lejeaftalerIgangvaerende", lejeaftalerIgangværende);
 
     String afsluttetStatus = "afsluttet";
     ArrayList<Lejeaftale> lejeaftalerAfsluttet =

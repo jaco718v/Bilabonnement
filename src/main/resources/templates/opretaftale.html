@@ -5,24 +5,38 @@
     <title>Title</title>
 </head>
 <body>
-
 <form action="/opretaftale" method="post">
+    <div>Opret Limited plan</div>
     <span th:text="${kunde.fornavn}"></span><span th:text="${kunde.efternavn}"></span>
     <span th:text="${bil.fabrikant}"></span><span th:text="${bil.model}"></span>
 
     <input type="hidden" name="kundeID" th:value="${kunde.kundeID}">
     <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
 
-    <label for="Unlimited">Unlimited:</label>
-    <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited">
-    <label for="Limited">Limited:</label>
-    <input type="radio" id="Limited" name="aftaletype" value="Limited">
-
-    <label for="startdato-felt">Startdato:</label>
-    <input type="date" id="startdato-felt" name="startdato" th:value="${datoNu}">
+    <input type="hidden" name="aftaletype" value="Limited">
+    <input type="hidden" name="startdato" th:value="${datoNu}">
 
     <label for="slutdato-felt">slutdato:</label>
-    <input type="date" id="slutdato-felt" name="slutdato" th:value="${datoFemMåneder}">
+    <input type="hidden" name="slutdato" th:value="${datoFemMaaneder}">
+
+    <button type="submit">Opret</button>
+
+</form>
+
+
+<form action="/opretaftale" method="post">
+    <div>Opret Unlimited plan:</div>
+    <span th:text="${kunde.fornavn}"></span><span th:text="${kunde.efternavn}"></span>
+    <span th:text="${bil.fabrikant}"></span><span th:text="${bil.model}"></span>
+
+    <input type="hidden" name="kundeID" th:value="${kunde.kundeID}">
+    <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
+
+    <input type="hidden" name="aftaletype" value="Unlimited">
+    <input type="hidden" name="startdato" th:value="${datoNu}">
+
+    <label for="slutdato-felt">Slutdato for abonnement:</label>
+    <input type="date" id="slutdato-felt" name="slutdato" th:min="${datoFireMaaneder}" required>
 
     <button type="submit">Opret</button>
 

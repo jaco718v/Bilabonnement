@@ -10,10 +10,9 @@
     <tr th:each="aftale : ${lejeaftalerBetaling}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
-        <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktNr}}">Updater aftale</a></td>
     </tr>
 </table>
 <h1>Lejeaftaler, der afventer skadesrapport</h1>
@@ -21,23 +20,21 @@
     <tr th:each="aftale : ${lejeaftalerVenter}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
-        <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktNr}}">Updater aftale</a></td>
     </tr>
 </table>
 <h1>Igangværende lejeaftaler</h1>
 <table>
-    <tr th:each="aftale : ${lejeaftalerIgangværende}">
+    <tr th:each="aftale : ${lejeaftalerIgangvaerende}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
-        <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
         <td><a th:href="@{'/meldafleveret/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Meld bil afleveret</a></td>
-        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
-        <td><a th:href="@{'/sletaftale/'+${aftale.kontraktID}}">Slet aftale</a></td>
+        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktNr}}">Updater aftale</a></td>
+        <td><a th:href="@{'/sletaftale/'+${aftale.kontraktNr}}">Slet aftale</a></td>
     </tr>
 </table>
 <h1>Afsluttede lejeaftaler</h1>
@@ -45,11 +42,11 @@
     <tr th:each="aftale : ${lejeaftalerAfsluttet}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
-        <td th:text="${aftale.kilometerpakke}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/updateraftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktNr}}">Updater aftale</a></td>
     </tr>
 </table>
+<a th:href="${'/'}"></a>
 </body>
 </html>

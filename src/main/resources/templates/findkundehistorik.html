@@ -18,7 +18,7 @@
         <td th:text="${kunde.efternavn}"></td>
         <td th:text="${kunde.kontaktnummer}"></td>
         <td th:text="${kunde.email}"></td>
-        <td><a th:href="@{'/saveid/'+ ${kunde.kundeID}}">Vælg</a></td>
+        <td><a th:href="@{'/viskundehistorik/'+ ${kunde.kundeID}}">Vælg</a></td>
     </tr>
 </table>
 </body>

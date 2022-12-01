@@ -13,7 +13,7 @@ CREATE TABLE kunder(
                        PRIMARY KEY(kunde_id));
 
 CREATE TABLE lejebiler(
-                          vognnummer int,
+                          vognnummer int auto_increment,
                           stelnummer int,
                           fabrikant varchar(25),
                           model varchar(50),
@@ -23,7 +23,7 @@ CREATE TABLE lejebiler(
                           stålpris double,
                           co2_niveau double,
                           reg_afgift double,
-                          lejebil_status varchar(25),
+                          lejebil_status varchar(25) default 'Ledig',
                           lejebil_farve varchar(25),
                           kilometerpakke int,
                           PRIMARY KEY(vognnummer));

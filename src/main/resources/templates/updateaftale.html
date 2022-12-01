@@ -14,15 +14,15 @@
     <input id="vognnummer-felt" name="vognnummer" th:value="${lejeaftale.vognnummer}" disabled>
 
     <label for="Unlimited">Unlimited:</label>
-    <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited">
+    <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited" required>
     <label for="Limited">Limited:</label>
-    <input type="radio" id="Limited" name="aftaletype" value="Limited">
+    <input type="radio" id="Limited" name="aftaletype" value="Limited" required>
 
     <label for="startdato-felt">Startdato:</label>
-    <input type="date" id="startdato-felt" name="startdato" th:value="${lejeaftale.startDato}">
+    <input  id="startdato-felt" name="startdato" th:value="${lejeaftale.startDato}">
 
     <label for="slutdato-felt">slutdato:</label>
-    <input type="date" id="slutdato-felt" name="slutdato" th:value="${lejeaftale.slutDato}">
+    <input id="slutdato-felt" name="slutdato" th:value="${lejeaftale.slutDato}">
 
     <button type="submit">Updater</button>
 

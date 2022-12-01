@@ -93,8 +93,8 @@ public class BilabonnementRepository {
         String fabrikant = resultSet.getString(3);
         String model = resultSet.getString(4);
         String udstyrspakke = resultSet.getString(5);
-        double købspris = resultSet.getDouble(6);
-        double lejepris = resultSet.getDouble(7);
+        double lejepris = resultSet.getDouble(6);
+        double købspris = resultSet.getDouble(7);
         double stålpris = resultSet.getDouble(8);
         double co2Niveau = resultSet.getDouble(9);
         double regAfgift = resultSet.getDouble(10);
@@ -102,7 +102,7 @@ public class BilabonnementRepository {
         String farve = resultSet.getString(12);
         int kilometerpakke = resultSet.getInt(13);
         bilListe.add(new Lejebil(vognnummer, stelnummer, fabrikant, model,
-            udstyrspakke, købspris, lejepris, stålpris, co2Niveau, regAfgift, status, farve, kilometerpakke));
+            udstyrspakke, lejepris, købspris, stålpris, co2Niveau, regAfgift, status, farve, kilometerpakke));
       }
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
@@ -112,21 +112,20 @@ public class BilabonnementRepository {
   }
 
   public Lejebil findBilMedVognnummer(int vognnummer) {
+    ArrayList<Lejebil> bilListe = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE vognummer=?";
+      String sqlQuery = "SELECT * FROM lejebiler WHERE vognnummer=?";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1, vognnummer);
       ResultSet resultSet = pstm.executeQuery();
-      ArrayList<Lejebil> bilListe = lavBilListe(resultSet);
-      if (!bilListe.isEmpty()) {
-        return bilListe.get(1);
-      }
+      bilListe = lavBilListe(resultSet);
+
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
-    return null;
+    return bilListe.get(0);
   }
 
   public ArrayList<Lejebil> findBilerFraFabrikant(String fabrikant) {
@@ -149,7 +148,7 @@ public class BilabonnementRepository {
                                 String startdato, String slutdato) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlInsert = "INSERT INTO lejeaftaler(kunde_id, vognnummer,aftaletype," +
+      String sqlInsert = "INSERT INTO lejeaftaler(kunde_id, vognnummer, aftaletype," +
           " startdato, slutdato)" +
           "VALUES(?,?,?,?,?)";
       PreparedStatement psmt = conn.prepareStatement(sqlInsert);
@@ -445,7 +444,9 @@ public class BilabonnementRepository {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlQuery ="SELECT rapport_id FROM skadesrapporter WHERE kontrakt_id=?";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
+      pstm.setInt(1,kontraktID);
       ResultSet resultSet = pstm.executeQuery();
+      if(resultSet.next()){
       int rapportID = resultSet.getInt(1);
 
       String sqlDelete = "DELETE FROM skadesafgifter WHERE rapport_id=?";
@@ -453,6 +454,7 @@ public class BilabonnementRepository {
       pstm.setInt(1,rapportID);
 
       pstm.executeUpdate();
+      }
 
     } catch (SQLException e){
       System.out.println("Couldn't connect to db");
@@ -530,7 +532,7 @@ public class BilabonnementRepository {
     ArrayList<String> manglendeFabrikanter = new ArrayList<>();
     try {
         Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-        String sqlQuery = "SELECT COUNT(vognnummer), fabrikant FROM lejebiler " +   //Test i mySQL
+        String sqlQuery = "SELECT COUNT(vognnummer), fabrikant FROM lejebiler " +
             "WHERE lejebil_status='Ledig' GROUP BY fabrikant HAVING COUNT(vognnummer) < 3";
         PreparedStatement pstm = conn.prepareStatement(sqlQuery);
         ResultSet resultSet = pstm.executeQuery();
