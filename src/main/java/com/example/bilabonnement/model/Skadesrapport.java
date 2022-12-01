@@ -3,33 +3,47 @@ package com.example.bilabonnement.model;
 public class Skadesrapport {
   private int kontraktID;
   private int rapportID;
-  private int overkørteKilometer;
+  private int overkoerteKilometer;
   private boolean manglendeService;
-  private boolean manglendeRengøring;
-  private boolean manglendeDækskifte;
+  private boolean manglendeRengoering;
+  private boolean manglendeDaekskifte;
   private int lakfeltSkade;
-  private int alufælgSkade;
+  private int alufaelgSkade;
   private int stenslagSkade;
 
   public Skadesrapport(){}
-  public Skadesrapport(int kontraktID, int rapportID, int overkørteKilometer, boolean manglendeService, boolean manglendeRengøring, boolean manglendeDækskifte, int lakfeltSkade, int alufælgSkade, int stenslagSkade) {
+
+  public Skadesrapport(int kontraktID){
+    this.kontraktID=kontraktID;
+  }
+
+  public Skadesrapport(int kontraktID, int rapportID, int overkoerteKilometer, boolean manglendeService, boolean manglendeRengoering, boolean manglendeDaekskifte, int lakfeltSkade, int alufaelgSkade, int stenslagSkade) {
     this.kontraktID = kontraktID;
     this.rapportID = rapportID;
-    this.overkørteKilometer = overkørteKilometer;
+    this.overkoerteKilometer = overkoerteKilometer;
     this.manglendeService = manglendeService;
-    this.manglendeRengøring = manglendeRengøring;
-    this.manglendeDækskifte = manglendeDækskifte;
+    this.manglendeRengoering = manglendeRengoering;
+    this.manglendeDaekskifte = manglendeDaekskifte;
     this.lakfeltSkade = lakfeltSkade;
-    this.alufælgSkade = alufælgSkade;
+    this.alufaelgSkade = alufaelgSkade;
     this.stenslagSkade = stenslagSkade;
   }
+  
 
-  public int getOverkørteKilometer() {
-    return overkørteKilometer;
+  public int getOverkoerteKilometer() {
+    return overkoerteKilometer;
   }
 
-  public void setOverkørteKilometer(int overkørteKilometer) {
-    this.overkørteKilometer = overkørteKilometer;
+  public void setOverkoerteKilometer(int overkoerteKilometer) {
+    this.overkoerteKilometer = overkoerteKilometer;
+  }
+
+  public void setKontraktID(int kontraktID) {
+    this.kontraktID = kontraktID;
+  }
+
+  public void setRapportID(int rapportID) {
+    this.rapportID = rapportID;
   }
 
   public boolean isManglendeService() {
@@ -40,20 +54,20 @@ public class Skadesrapport {
     this.manglendeService = manglendeService;
   }
 
-  public boolean isManglendeRengøring() {
-    return manglendeRengøring;
+  public boolean isManglendeRengoering() {
+    return manglendeRengoering;
   }
 
-  public void setManglendeRengøring(boolean manglendeRengøring) {
-    this.manglendeRengøring = manglendeRengøring;
+  public void setManglendeRengoering(boolean manglendeRengoering) {
+    this.manglendeRengoering = manglendeRengoering;
   }
 
-  public boolean isManglendeDækskifte() {
-    return manglendeDækskifte;
+  public boolean isManglendeDaekskifte() {
+    return manglendeDaekskifte;
   }
 
-  public void setManglendeDækskifte(boolean manglendeDækskifte) {
-    this.manglendeDækskifte = manglendeDækskifte;
+  public void setManglendeDaekskifte(boolean manglendeDaekskifte) {
+    this.manglendeDaekskifte = manglendeDaekskifte;
   }
 
   public int getLakfeltSkade() {
@@ -64,12 +78,12 @@ public class Skadesrapport {
     this.lakfeltSkade = lakfeltSkade;
   }
 
-  public int getAlufælgSkade() {
-    return alufælgSkade;
+  public int getAlufaelgSkade() {
+    return alufaelgSkade;
   }
 
-  public void setAlufælgSkade(int alufælgSkade) {
-    this.alufælgSkade = alufælgSkade;
+  public void setAlufaelgSkade(int alufaelgSkade) {
+    this.alufaelgSkade = alufaelgSkade;
   }
 
   public int getStenslagSkade() {

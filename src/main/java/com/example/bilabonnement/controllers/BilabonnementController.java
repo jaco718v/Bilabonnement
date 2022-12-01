@@ -146,19 +146,18 @@ public class BilabonnementController {
   @GetMapping("/opretskadesrapport/{id}")
   public String showOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){
     int kontraktID = bilabonnementRepository.findKontraktIDMedVognnummer(vognnummer);
+    Skadesrapport skadesrapport = new Skadesrapport(kontraktID);
     model.addAttribute("vognnummer", vognnummer);
-    model.addAttribute("kontraktID",kontraktID);
+    model.addAttribute("skadesrapport",skadesrapport);
+
     return "opretskadesrapport";
   }
 
   @PostMapping("/opretskadesrapport")
-  public String opretSkadesrapport(@RequestParam("kontraktID") int kontraktID, @RequestParam("vognnummer") int vognnummer, @RequestParam("kilometer") int overkørteKilometer,
-                                   @RequestParam("service") boolean manglendeService, @RequestParam("rengoering") boolean manglendeRengøring,
-                                   @RequestParam("daekskifte") boolean manglendeDækskifte, @RequestParam("lakfelt") int lakfeltSkade,
-                                   @RequestParam("alufaelg") int alufælgSkade, @RequestParam("stenslag") int stenslagSkade){
-    bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
+  public String opretSkadesrapport(@ModelAttribute Skadesrapport skadesrapport, @RequestParam("vognnummer") int vognnummer){
+    bilabonnementRepository.opretSkadesrapportDB(skadesrapport);
     bilabonnementRepository.setBilTjekketDB(vognnummer);
-    bilabonnementRepository.setAftaleBetaling(kontraktID);
+    bilabonnementRepository.setAftaleBetaling(skadesrapport.getKontraktID());
     return "redirect:/";
   }
 

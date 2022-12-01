@@ -166,34 +166,30 @@ public class BilabonnementRepository {
     }
   }
 
-  public void opretSkadesrapportDB(int kontraktID, int overkørteKilometer,
-                                   boolean manglendeService, boolean manglendeRengøring,
-                                   boolean manglendeDækskifte, int lakfeltSkade,
-                                   int alufælgSkade, int stenslagSkade) {
+  public void opretSkadesrapportDB(Skadesrapport skadesrapport) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlInsert = "INSERT INTO skadesrapporter(kontrakt_id, overkørte_kilometer, manglende_service, manglende_rengøring, manglende_dækskifte, lakfelt_skade, alufælg_skade, stenslag_skade)" +
           "VALUES(?,?,?,?,?,?,?,?)";
+
       PreparedStatement psmt = conn.prepareStatement(sqlInsert);
-      psmt.setInt(1, kontraktID);
-      psmt.setInt(2, overkørteKilometer);
-      psmt.setBoolean(3, manglendeService);
-      psmt.setBoolean(4, manglendeRengøring);
-      psmt.setBoolean(5, manglendeDækskifte);
-      psmt.setInt(6, lakfeltSkade);
-      psmt.setInt(7, alufælgSkade);
-      psmt.setInt(8, stenslagSkade);
+      psmt.setInt(1, skadesrapport.getKontraktID());
+      psmt.setInt(2, skadesrapport.getOverkoerteKilometer());
+      psmt.setBoolean(3, skadesrapport.isManglendeService());
+      psmt.setBoolean(4, skadesrapport.isManglendeRengoering());
+      psmt.setBoolean(5, skadesrapport.isManglendeDaekskifte());
+      psmt.setInt(6, skadesrapport.getLakfeltSkade());
+      psmt.setInt(7, skadesrapport.getAlufaelgSkade());
+      psmt.setInt(8, skadesrapport.getStenslagSkade());
 
       psmt.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
-    int rapportID = getRapportIDViaKontraktID(kontraktID);
-    if (rapportID > 0) {
-      Skadesrapport skadesrapport = new Skadesrapport(kontraktID, rapportID, overkørteKilometer, manglendeService,
-          manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
+    // Get rapportID
 
+    if (skadesrapport.getRapportID() > 0) {
       opretSkadeafgifterDB(new Skadesafgifter(skadesrapport));
     }
   }
@@ -498,12 +494,12 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1, kontraktID);
       ResultSet resultSet = pstm.executeQuery();
-      skadesrapport.setOverkørteKilometer(resultSet.getInt(3));
+      skadesrapport.setOverkoerteKilometer(resultSet.getInt(3));
       skadesrapport.setManglendeService(resultSet.getBoolean(4));
-      skadesrapport.setManglendeRengøring(resultSet.getBoolean(5));
-      skadesrapport.setManglendeDækskifte(resultSet.getBoolean(6));
+      skadesrapport.setManglendeRengoering(resultSet.getBoolean(5));
+      skadesrapport.setManglendeDaekskifte(resultSet.getBoolean(6));
       skadesrapport.setLakfeltSkade(resultSet.getInt(7));
-      skadesrapport.setAlufælgSkade(resultSet.getInt(8));
+      skadesrapport.setAlufaelgSkade(resultSet.getInt(8));
       skadesrapport.setStenslagSkade(resultSet.getInt(9));
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
@@ -520,9 +516,8 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1, vognnummer);
       ResultSet resultSet = pstm.executeQuery();
-      if(resultSet.next()){
+      resultSet.next();
       kontraktID = resultSet.getInt(1);
-      }
 
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");

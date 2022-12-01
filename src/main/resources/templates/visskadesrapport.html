@@ -8,7 +8,7 @@
 <h1>Kontraktnummer: <span th:text="${skadesrapport.getKontraktID()}"></span></h1>
 
 <span>Overkørte kilometer</span>
-<span th:text="${skadesrapport.getOverkørteKilometer()}">Kilometer</span>
+<span th:text="${skadesrapport.getOverkoerteKilometer()}">Kilometer</span>
 <span th:text="${skadesafgifter.getAfgiftOverkørteKilometer()}">kr.</span> <br> <br>
 
 <span>Manglende service:</span>
@@ -25,7 +25,7 @@
 <span th:text="${skadesafgifter.getAfgiftLakfeltSkade()}">kr.</span> <br> <br>
 
 <span>Alufælg</span>
-<span th:text="${skadesrapport.getAlufælgSkade()}">tilfælde</span>
+<span th:text="${skadesrapport.getAlufaelgSkade()}">tilfælde</span>
 <span th:text="${skadesafgifter.getAfgiftAlufælgSkade()}">kr.</span> <br> <br>
 
 <span>Stenslag:</span>

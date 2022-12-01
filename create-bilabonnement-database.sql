@@ -32,7 +32,7 @@ CREATE TABLE lejeaftaler(
                             kontrakt_id int auto_increment,
                             kunde_id int,
                             vognnummer int,
-                            aftaletype varbinary(25),
+                            aftaletype varchar(25),
                             startdato varchar(25),
                             slutdato varchar(25),
                             kontrakt_status varchar(25) DEFAULT 'igangværende',
@@ -41,8 +41,8 @@ CREATE TABLE lejeaftaler(
                             FOREIGN KEY(vognnummer) REFERENCES lejebiler(vognnummer));
 
 CREATE TABLE skadesrapporter(
-                                kontrakt_id int,
                                 rapport_id int auto_increment,
+                                kontrakt_id int,
                                 overkørte_kilometer int,
                                 manglende_service boolean,
                                 manglende_rengøring boolean,
@@ -50,7 +50,8 @@ CREATE TABLE skadesrapporter(
                                 lakfelt_skade int,
                                 alufælg_skade int,
                                 stenslag_skade int,
-                                PRIMARY KEY(rapport_id));
+                                PRIMARY KEY(rapport_id),
+                                FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));
 
 CREATE TABLE skadesafgifter(
                                rapport_id int,
@@ -68,7 +69,3 @@ CREATE TABLE forhåndsaftale(
                                købspris double,
                                vilkår_periode varchar(50),
                                FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));
-
-
-
-

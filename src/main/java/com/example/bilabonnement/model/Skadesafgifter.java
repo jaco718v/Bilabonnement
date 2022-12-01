@@ -17,24 +17,24 @@ public class Skadesafgifter {
   public Skadesafgifter(Skadesrapport skadesrapport){
     rapportID = skadesrapport.getRapportID();
     double kilometerPris = 1.5;
-    afgiftOverkørteKilometer = skadesrapport.getOverkørteKilometer()*kilometerPris;
+    afgiftOverkørteKilometer = skadesrapport.getOverkoerteKilometer()*kilometerPris;
 
     double servicePris = 2500;
     if(skadesrapport.isManglendeService()){
       afgiftManglendeService=servicePris;}
 
     double rengøringPris = 999;
-    if(skadesrapport.isManglendeRengøring()){
+    if(skadesrapport.isManglendeRengoering()){
       afgiftManglendeRengøring=rengøringPris;
     }
     double dækPris = 999;
-    if(skadesrapport.isManglendeDækskifte()){
+    if(skadesrapport.isManglendeDaekskifte()){
       afgiftManglendeDækskifte=dækPris;
     }
     double lakfeltPris = 1500;
     afgiftLakfeltSkade = skadesrapport.getLakfeltSkade()*lakfeltPris;
     double alufælgPris = 400;
-    afgiftAlufælgSkade = skadesrapport.getAlufælgSkade()*alufælgPris;
+    afgiftAlufælgSkade = skadesrapport.getAlufaelgSkade()*alufælgPris;
     double stenslagAfgiftInitialExtra = 350;
     double stenslagAfgiftEfterfølgende = 300;
     if(skadesrapport.getStenslagSkade()>0){
