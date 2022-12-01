@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form action="/" method="post">
+<form action="/opretskadesrapport" method="post">
 
     <input type="hidden" id="kontrakt-felt" name="kontraktID" th:value="${kontraktID}">
     <input type="hidden" id="vognnummer-felt" name="vognnummer" th:value="${vognnummer}">
@@ -16,15 +16,18 @@
     <span>1,5 kr. pr. km.</span> <br> <br>
 
     <label for="service-felt">Manglende service:</label>
-    <input type="checkbox" id="service-felt" name="service">
+    <input type="hidden" name="service" value="false">
+    <input type="checkbox" id="service-felt" name="service" value="true">
     <span>2.500kr</span> <br><br>
 
     <label for="rengoering-felt">Manglende rengøring:</label>
-    <input type="checkbox" id="rengoering-felt" name="rengoering">
+    <input type="hidden" name="rengoering" value="false">
+    <input type="checkbox" id="rengoering-felt" name="rengoering" value="true">
     <span>1.000kr</span> <br><br>
 
     <label for="daekskifte-felt">Manglende dækskifte:</label>
-    <input type="checkbox" id="daekskifte-felt" name="daekskifte">
+    <input type="hidden" name="daekskifte" value="false">
+    <input type="checkbox" id="daekskifte-felt" name="daekskifte" value="true">
     <span>999kr</span> <br><br>
 
 

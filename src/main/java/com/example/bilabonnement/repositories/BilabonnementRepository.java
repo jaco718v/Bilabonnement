@@ -201,7 +201,7 @@ public class BilabonnementRepository {
   public void opretSkadeafgifterDB(Skadesafgifter skadesafgifter) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlInsert = "INSERT INTO skadesrapporter(rapport_id, afgift_overkørte_kilometer, afgift_manglende_service, " +
+      String sqlInsert = "INSERT INTO skadesafgifter(rapport_id, afgift_overkørte_kilometer, afgift_manglende_service, " +
           "afgift_manglende_rengøring, afgift_manglende_dækskifte, afgift_lakfelt_skade, " +
           "afgift_alufælg_skade, afgift_stenslag_skade)" +
           "VALUES(?,?,?,?,?,?,?,?)";
@@ -246,6 +246,7 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1, kontraktID);
       ResultSet resultSet = pstm.executeQuery();
+      resultSet.next();
       int rapportID = resultSet.getInt(1);
       return rapportID;
     } catch (SQLException e) {
@@ -272,7 +273,7 @@ public class BilabonnementRepository {
   public void setAftaleBetaling(int kontraktID) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlUpdate = "UPDATE lejeaftaler SET kontrakt_status = 'betaling' Where koontrakt_id = ?";
+      String sqlUpdate = "UPDATE lejeaftaler SET kontrakt_status = 'betaling' Where kontrakt_id = ?";
       PreparedStatement pstm = conn.prepareStatement(sqlUpdate);
       pstm.setInt(1, kontraktID);
       pstm.executeUpdate();
@@ -519,7 +520,9 @@ public class BilabonnementRepository {
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setInt(1, vognnummer);
       ResultSet resultSet = pstm.executeQuery();
+      if(resultSet.next()){
       kontraktID = resultSet.getInt(1);
+      }
 
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");

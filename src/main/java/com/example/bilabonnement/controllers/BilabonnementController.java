@@ -159,10 +159,10 @@ public class BilabonnementController {
     bilabonnementRepository.opretSkadesrapportDB(kontraktID, overkørteKilometer, manglendeService, manglendeRengøring, manglendeDækskifte, lakfeltSkade, alufælgSkade, stenslagSkade);
     bilabonnementRepository.setBilTjekketDB(vognnummer);
     bilabonnementRepository.setAftaleBetaling(kontraktID);
-    return "/";
+    return "redirect:/";
   }
 
-  @GetMapping("/hvisbillager")
+  @GetMapping("/visbillager")
   public String hvisBilLager(Model model){
     String status = "ledig";
     ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
