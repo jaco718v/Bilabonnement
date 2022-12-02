@@ -14,10 +14,10 @@
     <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
 
     <input type="hidden" name="aftaletype" value="Limited">
-    <input type="hidden" name="startdato" th:value="${datoNu}">
+    <input type="hidden" name="startDato" th:value="${datoNu}">
 
     <label for="slutdato-felt">slutdato:</label>
-    <input type="hidden" name="slutdato" th:value="${datoFemMaaneder}">
+    <input type="hidden" name="slutDato" th:value="${datoFemMaaneder}">
 
     <button type="submit">Opret</button>
 
@@ -41,6 +41,6 @@
     <button type="submit">Opret</button>
 
 </form>
-
+<a th:href="@{'/'}">Afbryd</a>
 </body>
 </html>

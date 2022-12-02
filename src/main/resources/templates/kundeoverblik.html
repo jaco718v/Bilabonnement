@@ -46,7 +46,8 @@
         <td th:text="${aftale.slutDato}"></td>
         <td><a th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
+
 </table>
-<a th:href="${'/'}"></a>
+<a th:href="@{'/'}">Retur</a>
 </body>
 </html>

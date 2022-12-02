@@ -229,7 +229,7 @@ public class BilabonnementController {
     return "bilertilskadesrapport";
   }
 
-  @GetMapping("/visskadesrapport/{id}")
+  @GetMapping("/skadesrapport/{id}")
   public String visSkaderapport(@PathVariable("id") int kontraktID, Model model){
     Skadesrapport skadesrapport = bilabonnementRepository.getSkadesrapportViaKontraktID(kontraktID);
     model.addAttribute("skadesrapport",skadesrapport);
