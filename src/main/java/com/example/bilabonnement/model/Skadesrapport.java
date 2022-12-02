@@ -28,7 +28,7 @@ public class Skadesrapport {
     this.alufaelgSkade = alufaelgSkade;
     this.stenslagSkade = stenslagSkade;
   }
-  
+
 
   public int getOverkoerteKilometer() {
     return overkoerteKilometer;

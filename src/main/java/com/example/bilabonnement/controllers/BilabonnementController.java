@@ -174,7 +174,7 @@ public class BilabonnementController {
     return "lager";
   }
 
-  @GetMapping("/hvisudlejedebiler")
+  @GetMapping("/visudlejedebiler")
   public String hvisUdlejedeBiler(Model model){
   String status = "udlejet";
   ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
@@ -182,16 +182,23 @@ public class BilabonnementController {
   double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
   model.addAttribute("bilListe",bilListe);
   model.addAttribute("antalBiler",antalBiler);
-  model.addAttribute("samletIndtægt",samletIndtægt);
+  model.addAttribute("samletIndtaegt",samletIndtægt);
 
     return "udlejedebiler";
   }
 
-  @GetMapping("/meldafleveret/{id}/{kundeID}")
-  public String meldBilAfleveret(@PathVariable("id") int vognnummer,@PathVariable("kundeID") int kundeID){
+  @GetMapping("/meldafleveret/{vognnummer}/{kundeID}")
+  public String meldBilAfleveret(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
     bilabonnementRepository.setBilAfleveret(vognnummer);
     bilabonnementRepository.setAftaleVenter(vognnummer);
-    return "redirect:/viskundehistorik/{kundeID}"; //Tilbage placeholder
+    return "redirect:/viskundehistorik/{kundeID}";
+  }
+
+  @GetMapping("/meldaftaleafsluttet/{vognnummer}/{kundeID}")
+  public String meldAftaleAfsluttet(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
+    bilabonnementRepository.setAftaleAfsluttet(vognnummer);
+    bilabonnementRepository.setBilLedigDB(vognnummer);
+    return "redirect:/viskundehistorik/{kundeID}";
   }
 
   @GetMapping("/bilertilskadesrapport")

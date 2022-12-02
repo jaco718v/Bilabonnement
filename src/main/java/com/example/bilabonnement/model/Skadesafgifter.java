@@ -2,12 +2,12 @@ package com.example.bilabonnement.model;
 
 public class Skadesafgifter {
   private int rapportID;
-  private double afgiftOverkørteKilometer=0;
+  private double afgiftOverkoerteKilometer =0;
   private double afgiftManglendeService=0;
-  private double afgiftManglendeRengøring=0;
-  private double afgiftManglendeDækskifte=0;
+  private double afgiftManglendeRengoering =0;
+  private double afgiftManglendeDaekskifte =0;
   private double afgiftLakfeltSkade=0;
-  private double afgiftAlufælgSkade=0;
+  private double afgiftAlufaelgSkade =0;
   private double afgiftStenslagSkade=0;
 
 
@@ -17,7 +17,7 @@ public class Skadesafgifter {
   public Skadesafgifter(Skadesrapport skadesrapport){
     rapportID = skadesrapport.getRapportID();
     double kilometerPris = 1.5;
-    afgiftOverkørteKilometer = skadesrapport.getOverkoerteKilometer()*kilometerPris;
+    afgiftOverkoerteKilometer = skadesrapport.getOverkoerteKilometer()*kilometerPris;
 
     double servicePris = 2500;
     if(skadesrapport.isManglendeService()){
@@ -25,16 +25,16 @@ public class Skadesafgifter {
 
     double rengøringPris = 999;
     if(skadesrapport.isManglendeRengoering()){
-      afgiftManglendeRengøring=rengøringPris;
+      afgiftManglendeRengoering =rengøringPris;
     }
     double dækPris = 999;
     if(skadesrapport.isManglendeDaekskifte()){
-      afgiftManglendeDækskifte=dækPris;
+      afgiftManglendeDaekskifte =dækPris;
     }
     double lakfeltPris = 1500;
     afgiftLakfeltSkade = skadesrapport.getLakfeltSkade()*lakfeltPris;
     double alufælgPris = 400;
-    afgiftAlufælgSkade = skadesrapport.getAlufaelgSkade()*alufælgPris;
+    afgiftAlufaelgSkade = skadesrapport.getAlufaelgSkade()*alufælgPris;
     double stenslagAfgiftInitialExtra = 350;
     double stenslagAfgiftEfterfølgende = 300;
     if(skadesrapport.getStenslagSkade()>0){
@@ -45,28 +45,28 @@ public class Skadesafgifter {
     this.rapportID = rapportID;
   }
 
-  public void setAfgiftOverkørteKilometer(double afgiftOverkørteKilometer) {
-    this.afgiftOverkørteKilometer = afgiftOverkørteKilometer;
+  public void setAfgiftOverkoerteKilometer(double afgiftOverkoerteKilometer) {
+    this.afgiftOverkoerteKilometer = afgiftOverkoerteKilometer;
   }
 
   public void setAfgiftManglendeService(double afgiftManglendeService) {
     this.afgiftManglendeService = afgiftManglendeService;
   }
 
-  public void setAfgiftManglendeRengøring(double afgiftManglendeRengøring) {
-    this.afgiftManglendeRengøring = afgiftManglendeRengøring;
+  public void setAfgiftManglendeRengoering(double afgiftManglendeRengoering) {
+    this.afgiftManglendeRengoering = afgiftManglendeRengoering;
   }
 
-  public void setAfgiftManglendeDækskifte(double afgiftManglendeDækskifte) {
-    this.afgiftManglendeDækskifte = afgiftManglendeDækskifte;
+  public void setAfgiftManglendeDaekskifte(double afgiftManglendeDaekskifte) {
+    this.afgiftManglendeDaekskifte = afgiftManglendeDaekskifte;
   }
 
   public void setAfgiftLakfeltSkade(double afgiftLakfeltSkade) {
     this.afgiftLakfeltSkade = afgiftLakfeltSkade;
   }
 
-  public void setAfgiftAlufælgSkade(double afgiftAlufælgSkade) {
-    this.afgiftAlufælgSkade = afgiftAlufælgSkade;
+  public void setAfgiftAlufaelgSkade(double afgiftAlufaelgSkade) {
+    this.afgiftAlufaelgSkade = afgiftAlufaelgSkade;
   }
 
   public void setAfgiftStenslagSkade(double afgiftStenslagSkade) {
@@ -77,28 +77,28 @@ public class Skadesafgifter {
     return rapportID;
   }
 
-  public double getAfgiftOverkørteKilometer() {
-    return afgiftOverkørteKilometer;
+  public double getAfgiftOverkoerteKilometer() {
+    return afgiftOverkoerteKilometer;
   }
 
   public double getAfgiftManglendeService() {
     return afgiftManglendeService;
   }
 
-  public double getAfgiftManglendeRengøring() {
-    return afgiftManglendeRengøring;
+  public double getAfgiftManglendeRengoering() {
+    return afgiftManglendeRengoering;
   }
 
-  public double getAfgiftManglendeDækskifte() {
-    return afgiftManglendeDækskifte;
+  public double getAfgiftManglendeDaekskifte() {
+    return afgiftManglendeDaekskifte;
   }
 
   public double getAfgiftLakfeltSkade() {
     return afgiftLakfeltSkade;
   }
 
-  public double getAfgiftAlufælgSkade() {
-    return afgiftAlufælgSkade;
+  public double getAfgiftAlufaelgSkade() {
+    return afgiftAlufaelgSkade;
   }
 
   public double getAfgiftStenslagSkade() {

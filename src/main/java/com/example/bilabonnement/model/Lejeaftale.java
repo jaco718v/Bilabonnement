@@ -1,7 +1,7 @@
 package com.example.bilabonnement.model;
 
 public class Lejeaftale {
-  private int kontraktNr;
+  private int kontraktID;
   private int kundeID;
   private int vognnummer;
   private String aftaleType;
@@ -11,8 +11,8 @@ public class Lejeaftale {
 
 
   public Lejeaftale(){}
-  public Lejeaftale(int kontraktNr, int kundeID, int vognnummer, String aftaleType, String startDato, String slutDato, String kontraktStatus) {
-    this.kontraktNr = kontraktNr;
+  public Lejeaftale(int kontraktID, int kundeID, int vognnummer, String aftaleType, String startDato, String slutDato, String kontraktStatus) {
+    this.kontraktID = kontraktID;
     this.kundeID = kundeID;
     this.vognnummer = vognnummer;
     this.aftaleType = aftaleType;
@@ -21,12 +21,12 @@ public class Lejeaftale {
     this.kontraktStatus = kontraktStatus;
   }
 
-  public int getKontraktNr() {
-    return kontraktNr;
+  public int getKontraktID() {
+    return kontraktID;
   }
 
-  public void setKontraktNr(int kontraktNr) {
-    this.kontraktNr = kontraktNr;
+  public void setKontraktID(int kontraktID) {
+    this.kontraktID = kontraktID;
   }
 
   public int getKundeID() {

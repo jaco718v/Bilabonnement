@@ -9,16 +9,16 @@
 
 <span>Overkørte kilometer</span>
 <span th:text="${skadesrapport.getOverkoerteKilometer()}">Kilometer</span>
-<span th:text="${skadesafgifter.getAfgiftOverkørteKilometer()}">kr.</span> <br> <br>
+<span th:text="${skadesafgifter.getAfgiftOverkoerteKilometer()}">kr.</span> <br> <br>
 
 <span>Manglende service:</span>
 <span th:text="${skadesafgifter.getAfgiftManglendeService()}">kr</span> <br> <br>
 
 <span>Manglende rengøring</span>
-<span th:text="${skadesafgifter.getAfgiftManglendeRengøring()}">kr.</span> <br> <br>
+<span th:text="${skadesafgifter.getAfgiftManglendeRengoering()}">kr.</span> <br> <br>
 
 <span>Manglende dækskifte</span>
-<span th:text="${skadesafgifter.getAfgiftManglendeDækskifte()}">kr.</span> <br> <br>
+<span th:text="${skadesafgifter.getAfgiftManglendeDaekskifte()}">kr.</span> <br> <br>
 
 <span>Lakfelt:</span>
 <span th:text="${skadesrapport.getLakfeltSkade()}">tilfælde</span>
@@ -26,7 +26,7 @@
 
 <span>Alufælg</span>
 <span th:text="${skadesrapport.getAlufaelgSkade()}">tilfælde</span>
-<span th:text="${skadesafgifter.getAfgiftAlufælgSkade()}">kr.</span> <br> <br>
+<span th:text="${skadesafgifter.getAfgiftAlufaelgSkade()}">kr.</span> <br> <br>
 
 <span>Stenslag:</span>
 <span th:text="${skadesrapport.getStenslagSkade()}">tilfælde</span>
