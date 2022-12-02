@@ -7,6 +7,8 @@ public class Kunde {
   private int kontaktnummer;
   private String email;
 
+  public Kunde(){}
+
   public Kunde(int kundeID, String fornavn, String efternavn, int kontaktnummer, String email) {
     this.kundeID = kundeID;
     this.fornavn = fornavn;
@@ -33,5 +35,25 @@ public class Kunde {
 
   public String getEmail() {
     return email;
+  }
+
+  public void setKundeID(int kundeID) {
+    this.kundeID = kundeID;
+  }
+
+  public void setFornavn(String fornavn) {
+    this.fornavn = fornavn;
+  }
+
+  public void setEfternavn(String efternavn) {
+    this.efternavn = efternavn;
+  }
+
+  public void setKontaktnummer(int kontaktnummer) {
+    this.kontaktnummer = kontaktnummer;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }

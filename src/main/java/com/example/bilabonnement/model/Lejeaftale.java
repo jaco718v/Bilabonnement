@@ -21,6 +21,8 @@ public class Lejeaftale {
     this.kontraktStatus = kontraktStatus;
   }
 
+
+
   public int getKontraktID() {
     return kontraktID;
   }

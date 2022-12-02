@@ -7,6 +7,7 @@ import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -32,14 +33,15 @@ public class BilabonnementController {
   }
 
   @GetMapping("/opretkunde")
-  public String showOpretKunde(){
+  public String showOpretKunde(Model model){
+    Kunde kunde = new Kunde();
+    model.addAttribute("kunde",kunde);
     return "opretkunde";
   }
 
   @PostMapping("/opretkunde")
-  public String opretKunde(@RequestParam("fornavn") String fornavn, @RequestParam("efternavn") String efternavn, @RequestParam("kontaktnummer") int kontaktnummer,
-                           @RequestParam("email") String email){
-    bilabonnementRepository.opretKundeDB(fornavn, efternavn, kontaktnummer, email);
+  public String opretKunde(@ModelAttribute Kunde kunde){
+    bilabonnementRepository.opretKundeDB(kunde.getFornavn(), kunde.getEfternavn(), kunde.getKontaktnummer(), kunde.getEmail());
     return "redirect:/";
   }
 
@@ -47,7 +49,8 @@ public class BilabonnementController {
   public String showFindKundeHistorik(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
     if(kundeListe==null)
-    {kundeListe = new ArrayList<>();
+    {kundeListe = bilabonnementRepository.getAlleKunder();
+      session.setAttribute("kundeListe",kundeListe);
     }
     return "findkundehistorik";
   }
@@ -63,7 +66,10 @@ public class BilabonnementController {
   @GetMapping("/findkundetilaftale")
   public String showFindKundeTilAftale(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
-    if(kundeListe==null) kundeListe = new ArrayList<>();
+    if(kundeListe==null) {
+      kundeListe = bilabonnementRepository.getAlleKunder();
+      session.setAttribute("kundeListe",kundeListe);
+    }
     return "findkundetilaftale";
   }
 
@@ -83,7 +89,10 @@ public class BilabonnementController {
   @GetMapping("/findbiltilaftale")
   public String showFindBilTilAftale(HttpSession session, Model model){
     ArrayList<Lejebil> bilListe = (ArrayList<Lejebil>)session.getAttribute("bilListe");
-    if(bilListe==null) bilListe = new ArrayList<>();
+    if(bilListe==null) {
+      bilListe = bilabonnementRepository.getAlleLedigeLejebiler();
+      session.setAttribute("bilListe",bilListe);
+    }
     return "findbiltilaftale";
   }
 
@@ -104,6 +113,8 @@ public class BilabonnementController {
 
   @GetMapping("/opretaftale")
   public String showOpretAftale(HttpSession session ,Model model){
+    Lejeaftale lejeaftale = new Lejeaftale();
+    model.addAttribute("lejeaftale",lejeaftale);
     model.addAttribute("kunde",bilabonnementRepository.findKundeMedID((int)session.getAttribute("kundeID")));
     model.addAttribute("bil", bilabonnementRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
     model.addAttribute("datoNu",bilabonnementServices.getDato());
@@ -113,12 +124,10 @@ public class BilabonnementController {
   }
 
   @PostMapping("/opretaftale")
-  public String opretAftale( @RequestParam("kundeID") int kundeID, @RequestParam("vognnummer") int vognnummer,
-                            @RequestParam("aftaletype") String aftaletype,
-                            @RequestParam("startdato") String startdato, @RequestParam("slutdato") String slutdato){
-    String formateretSlutdato = bilabonnementServices.formaterDato(slutdato);
-    bilabonnementRepository.opretLejeaftaleDB(kundeID, vognnummer, aftaletype, startdato, formateretSlutdato);
-    bilabonnementRepository.setBilUdlejetDB(vognnummer);
+  public String opretAftale(@ModelAttribute Lejeaftale lejeaftale){   //Test om virker
+    String formateretSlutdato = bilabonnementServices.formaterDato(lejeaftale.getSlutDato());
+    bilabonnementRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
+    bilabonnementRepository.setBilUdlejetDB(lejeaftale.getVognnummer());
     return "redirect:/";
   }
 
@@ -130,9 +139,15 @@ public class BilabonnementController {
   }
 
   @PostMapping("/updateaftale")
-  public String updateAftale(@ModelAttribute Lejeaftale lejeaftale){
+  public String updateAftale(@ModelAttribute Lejeaftale lejeaftale, RedirectAttributes redirectAttributes){
     bilabonnementRepository.updateLejeaftale(lejeaftale);
-  return "redirect:/"; //Tilbage placeholder
+    redirectAttributes.addAttribute("id",lejeaftale.getKundeID());
+  return "redirect:/redirectoverblik";
+  }
+
+  @GetMapping("/redirectoverblik")
+  public String redirectOverblik(@RequestParam int id){
+    return "redirect:/viskundehistorik/{id}";
   }
 
   @GetMapping("/sletaftale/{id}")
@@ -140,8 +155,10 @@ public class BilabonnementController {
     int vognnummer = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID).getVognnummer();
     bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
     bilabonnementRepository.setBilLedigDB(vognnummer);
-    return "redirect:/"; //Tilbage placeholder
+    return "redirect:/viskundehistorik/{id}"; //Tilbage placeholder
   }
+
+
 
   @GetMapping("/opretskadesrapport/{id}")
   public String showOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){

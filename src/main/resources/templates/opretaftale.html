@@ -32,11 +32,11 @@
     <input type="hidden" name="kundeID" th:value="${kunde.kundeID}">
     <input type="hidden" name="vognnummer" th:value="${bil.vognnummer}">
 
-    <input type="hidden" name="aftaletype" value="Unlimited">
-    <input type="hidden" name="startdato" th:value="${datoNu}">
+    <input type="hidden" name="aftaleType" value="Unlimited">
+    <input type="hidden" name="startDato" th:value="${datoNu}">
 
     <label for="slutdato-felt">Slutdato for abonnement:</label>
-    <input type="date" id="slutdato-felt" name="slutdato" th:min="${datoFireMaaneder}" required>
+    <input type="date" id="slutdato-felt" name="slutDato" th:min="${datoFireMaaneder}" required>
 
     <button type="submit">Opret</button>
 
