@@ -63,9 +63,3 @@ CREATE TABLE skadesafgifter(
                                afgift_alufælg_skade double,
                                afgift_stenslag_skade double,
                                FOREIGN KEY(rapport_id) REFERENCES skadesrapporter(rapport_id));
-
-CREATE TABLE forhåndsaftale(
-                               kontrakt_id int,
-                               købspris double,
-                               vilkår_periode varchar(50),
-                               FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));

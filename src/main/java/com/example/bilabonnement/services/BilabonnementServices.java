@@ -55,8 +55,8 @@ public class BilabonnementServices {
     return formateretDato;
   }
 
-  public String capitalize(String word){
+  /*public String capitalize(String word){
     String capitalized = word.substring(0,1).toUpperCase()+word.substring(1);
     return capitalized;
-  }
+  }*/
 }

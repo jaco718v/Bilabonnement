@@ -22,7 +22,6 @@ public class Lejeaftale {
   }
 
 
-
   public int getKontraktID() {
     return kontraktID;
   }
