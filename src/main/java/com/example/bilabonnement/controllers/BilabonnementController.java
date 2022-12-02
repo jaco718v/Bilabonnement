@@ -45,21 +45,21 @@ public class BilabonnementController {
     return "redirect:/";
   }
 
-  @GetMapping("/findkundehistorik")
-  public String showFindKundeHistorik(HttpSession session){
+  @GetMapping("/findkundeoverblik")
+  public String showFindKundeOverblik(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
     if(kundeListe==null)
     {kundeListe = bilabonnementRepository.getAlleKunder();
       session.setAttribute("kundeListe",kundeListe);
     }
-    return "findkundehistorik";
+    return "findkundeoverblik";
   }
 
-  @PostMapping("/findkundehistorik")
-  public String findKundeHistorik(@RequestParam("fornavn") String fornavn, HttpSession session){
+  @PostMapping("/findkundeoverblik")
+  public String findKundeOverblik(@RequestParam("fornavn") String fornavn, HttpSession session){
     ArrayList<Kunde> kundeListe = bilabonnementRepository.findKunderMedFornavn(fornavn);
     session.setAttribute("kundeListe",kundeListe);
-    return "redirect:/findkundehistorik";
+    return "redirect:/findkundeoverblik";
   }
 
 
@@ -147,7 +147,7 @@ public class BilabonnementController {
 
   @GetMapping("/redirectoverblik")
   public String redirectOverblik(@RequestParam int id){
-    return "redirect:/viskundehistorik/{id}";
+    return "redirect:/kundeoverblik/{id}";
   }
 
   @GetMapping("/sletaftale/{id}")
@@ -155,7 +155,7 @@ public class BilabonnementController {
     int vognnummer = bilabonnementRepository.getLejeaftaleViaKontraktID(kontraktID).getVognnummer();
     bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
     bilabonnementRepository.setBilLedigDB(vognnummer);
-    return "redirect:/viskundehistorik/{id}"; //Tilbage placeholder
+    return "redirect:/kundeoverblik/{id}"; //Tilbage placeholder
   }
 
 
@@ -179,7 +179,7 @@ public class BilabonnementController {
   }
 
   @GetMapping("/visbillager")
-  public String hvisBilLager(Model model){
+  public String visBilLager(Model model){
     String status = "ledig";
     ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
     ArrayList<String> lavBestand = bilabonnementRepository.findLavFabrikantBestand();
@@ -192,7 +192,7 @@ public class BilabonnementController {
   }
 
   @GetMapping("/visudlejedebiler")
-  public String hvisUdlejedeBiler(Model model){
+  public String visUdlejedeBiler(Model model){
   String status = "udlejet";
   ArrayList<Lejebil> bilListe  = bilabonnementRepository.getBilListeViaStatus(status);
   int antalBiler = bilListe.size();
@@ -208,14 +208,14 @@ public class BilabonnementController {
   public String meldBilAfleveret(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
     bilabonnementRepository.setBilAfleveret(vognnummer);
     bilabonnementRepository.setAftaleVenter(vognnummer);
-    return "redirect:/viskundehistorik/{kundeID}";
+    return "redirect:/kundeoverblik/{kundeID}";
   }
 
   @GetMapping("/meldaftaleafsluttet/{vognnummer}/{kundeID}")
   public String meldAftaleAfsluttet(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
     bilabonnementRepository.setAftaleAfsluttet(vognnummer);
     bilabonnementRepository.setBilLedigDB(vognnummer);
-    return "redirect:/viskundehistorik/{kundeID}";
+    return "redirect:/kundeoverblik/{kundeID}";
   }
 
   @GetMapping("/bilertilskadesrapport")
@@ -237,10 +237,10 @@ public class BilabonnementController {
     Skadesafgifter skadesafgifter = bilabonnementRepository.getSkadesafgifterViaRapportID(rapportID);
     model.addAttribute("skadesafgifter",skadesafgifter);
 
-    return "visskadesrapport";
+    return "skadesrapport";
   }
 
-  @GetMapping("/viskundehistorik/{id}")
+  @GetMapping("/kundeoverblik/{id}")
   public String visLejeAftaler(@PathVariable("id") int kundeID, Model model){
     String betalingStatus ="betaling";
     ArrayList<Lejeaftale> lejeaftalerBetaling =
@@ -262,6 +262,6 @@ public class BilabonnementController {
         bilabonnementRepository.getLejeaftalerViaKundeIDOgStatus(kundeID, afsluttetStatus);
     model.addAttribute("lejeaftalerAfsluttet",lejeaftalerAfsluttet);
 
-    return "viskundehistorik";
+    return "kundeoverblik";
   }
 }

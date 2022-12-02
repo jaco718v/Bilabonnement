@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Find Kundehistorik</title>
+    <title>Find Kundeoverblik</title>
 </head>
 <body>
-<form action="/findkundehistorik" method="post">
+<form action="/findkundeoverblik" method="post">
     <label for="fornavn-felt">Fornavn:</label>
     <input id="fornavn-felt" name="fornavn">
 
@@ -18,7 +18,7 @@
         <td th:text="${kunde.efternavn}"></td>
         <td th:text="${kunde.kontaktnummer}"></td>
         <td th:text="${kunde.email}"></td>
-        <td><a th:href="@{'/viskundehistorik/'+ ${kunde.kundeID}}">Vælg</a></td>
+        <td><a th:href="@{'/viskundeoverblik/'+ ${kunde.kundeID}}">Vælg</a></td>
     </tr>
 </table>
 </body>

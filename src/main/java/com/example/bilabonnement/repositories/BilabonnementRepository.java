@@ -45,16 +45,17 @@ public class BilabonnementRepository {
     ArrayList<Kunde> kundeliste = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM kunder WHERE kunde_fornavn=?";
+      String sqlQuery = "SELECT * FROM kunder WHERE kunde_fornavn=? ORDER BY kunde_fornavn";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1, fornavn);
       ResultSet resultSet = pstm.executeQuery();
       while (resultSet.next()) {
         int kundeID = resultSet.getInt(1);
+        String fornavnDB = resultSet.getString(2);
         String efternavn = resultSet.getString(3);
         int kontaktnummer = resultSet.getInt(4);
         String email = resultSet.getString(5);
-        kundeliste.add(new Kunde(kundeID, fornavn, efternavn, kontaktnummer, email));
+        kundeliste.add(new Kunde(kundeID, fornavnDB, efternavn, kontaktnummer, email));
       }
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
@@ -132,7 +133,7 @@ public class BilabonnementRepository {
     ArrayList<Lejebil> bilListe = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE fabrikant=? and lejebil_status='ledig'";
+      String sqlQuery = "SELECT * FROM lejebiler WHERE fabrikant=? and lejebil_status='ledig' ORDER BY model";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1, fabrikant);
       ResultSet resultSet = pstm.executeQuery();
@@ -223,7 +224,7 @@ public class BilabonnementRepository {
     ArrayList<Lejebil> afleveretBilListe = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status=?";
+      String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status=? ORDER BY model";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1, status);
       ResultSet resultSet = pstm.executeQuery();
@@ -581,7 +582,7 @@ public class BilabonnementRepository {
     ArrayList<Kunde> kunder = new ArrayList<>();
     try{
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM kunder";
+      String sqlQuery = "SELECT * FROM kunder ORDER BY kunde_fornavn";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       ResultSet resultSet = pstm.executeQuery();
       while (resultSet.next()) {

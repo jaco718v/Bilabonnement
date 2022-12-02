@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kundehistorik</title>
+    <title>Kundeoverblik</title>
 </head>
 <body>
 <h1>Lejeaftaler til betaling</h1>
@@ -13,7 +13,7 @@
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
         <td><a th:href="@{'/meldaftaleafsluttet/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Autoriser betaling af rapport</a></td>
-        <td><a th:href="@{'/visskadesrapport/'+${aftale.kontraktID}}">Se skadesrapport</a></td>
+        <td><a th:href="@{'/skadesrapport/'+${aftale.kontraktID}}">Se skadesrapport</a></td>
     </tr>
 </table>
 <h1>Lejeaftaler, der afventer skadesrapport</h1>
