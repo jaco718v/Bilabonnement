@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/view/bilabonnementMain.css">
+</head>
+<body>
+
+<div th:fragment="navigator">
+    <div class="produktNavn">
+        K.W Bruun, Bilabonnement - Medarbejder App, Prototype
+    </div>
+    <div class="outerNavMain">
+<nav class="minFlexSquare">
+    <a class="minNav menu" th:href="'/'">Menu</a>
+    <a class="minNav datareg" th:href="@{'/findkundeoverblik/'}">Dataregistrering</a>
+    <a class="minNav skade" th:href="@{'/bilertilskadesrapport/'}">Skade og udbedring</a>
+    <a class="minNav forretning" th:href="@{'/visbillager/'}">Forretningsudvikling</a>
+</nav>
+    </div>
+</div>
+
+</body>
+</html>

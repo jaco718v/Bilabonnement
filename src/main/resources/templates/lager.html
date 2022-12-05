@@ -3,22 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Lager</title>
+    <link rel="stylesheet" href="/view/bilabonnementMain.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>.forretning{color: dodgerblue !important;}</style>
+    <style>.lager{color: dodgerblue !important;}</style>
 </head>
 <body>
-<h1>Ledige Biler:</h1>
-<table>
-    <tr th:each="fabrikant : ${lavbestand}">
-        <td th:text="${fabrikant}">Alert: Lav bestand af: </td>
+<nav th:replace="fragments/navigationMain :: navigator">Her skal være nav</nav>
+<div class="felt">
+    <nav th:replace="fragments/navigationForretning :: forretningNav">Her skal være subnav</nav>
+
+    <div class="alarmOuter">
+        Alerts:
+        <div th:each="fabrikant : ${lavbestand}">
+            <span class="alarmInner" th:text="${fabrikant}">Her er alerts</span>
+            <span class="alarmInner">: Lav bestand</span>
+        </div>
+    </div>
+
+<div class="overskrift">Ledige Biler:</div>
+
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vognnummer</th>
+        <th scope="col">Fabrikant</th>
+        <th scope="col">Model</th>
+        <th scope="col">Farve</th>
+        <th scope="col">Kilometerpakke</th>
+        <th scope="col">Mdl.ydelse</th>
     </tr>
-</table>
-<table>
+    </thead>
   <tr th:each="bil : ${bilListe}">
-    <td th:text="${bil.fabrikant}"></td>
-    <td th:text="${bil.model}"></td>
-    <td th:text="${bil.vognnummer}"></td>
-    <td th:text="${bil.lejepris}"></td>
+      <td th:text="${bil.vognnummer}"></td>
+      <td th:text="${bil.fabrikant}"></td>
+      <td th:text="${bil.model}"></td>
+      <td th:text="${bil.farve}"></td>
+      <td th:text="${bil.kilometerpakke}"></td>
+      <td th:text="${bil.lejepris}"></td>
   </tr>
 </table>
-<a th:href="@{'/'}">Retur</a>
+</div>
 </body>
 </html>

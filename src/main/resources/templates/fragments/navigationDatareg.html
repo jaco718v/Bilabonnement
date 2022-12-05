@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/view/bilabonnementMain.css">
+</head>
+<body>
+<div th:fragment="dataregNav">
+  <div class="outerNavSub">
+    <nav class="minFlexSquare">
+      <a class="minSubNav kundeoverblik" th:href="@{'/findkundeoverblik/'}">Kundeoverblik</a>
+      <a class="minSubNav aftale" th:href="@{'/findkundetilaftale/'}">Opret lejeaftale</a>
+      <a class="minSubNav kunde" th:href="@{'/opretkunde/'}">Opret ny kunde</a>
+    </nav>
+  </div>
+</div>
+
+</body>
+</html>

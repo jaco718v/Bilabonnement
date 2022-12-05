@@ -3,27 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Find bil</title>
+  <link rel="stylesheet" href="/view/bilabonnementMain.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>.datareg{color: dodgerblue !important;}</style>
+  <style>.aftale{color: dodgerblue !important;}</style>
 </head>
 <body>
+<nav th:replace="fragments/navigationMain :: navigator">Her skal være nav</nav>
+<div class="felt">
+  <nav th:replace="fragments/navigationDatareg :: dataregNav">Her skal være subnav</nav>
+
+  <div class="overskrift">Vælg en ledig bil</div>
+
+
 <form action="/findbiltilaftale" method="post">
   <input type="hidden" name="kundeID" th:value="${kundeID}">
 
-  <label for="fabrikant-felt">Fabrikant:</label>
+  <label for="fabrikant-felt"></label>
   <input id="fabrikant-felt" name="fabrikant">
 
-  <button type="submit">Søg efter fabrikant</button>
+  <button type="submit">Søg med fabrikant</button>
 </form>
-<h1>Biler til rådighed::</h1>
-<table>
+
+  <span class="tilbageLink"><a th:href="@{'/findkundetilaftale/'}">Tilbage</a></span>
+
+<br>
+<table class="table">
+  <thead class="table-dark">
+  <tr>
+    <th scope="col">Vognnummer</th>
+    <th scope="col">Fabrikant</th>
+    <th scope="col">Model</th>
+    <th scope="col">Farve</th>
+    <th scope="col">Kilometerpakke</th>
+    <th scope="col">Mdl.ydelse</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
   <tr th:each="bil : ${session.bilListe}">
+    <td th:text="${bil.vognnummer}"></td>
     <td th:text="${bil.fabrikant}"></td>
     <td th:text="${bil.model}"></td>
-    <td th:text="${bil.lejepris}"></td>
     <td th:text="${bil.farve}"></td>
     <td th:text="${bil.kilometerpakke}"></td>
-    <td><a th:href="@{'/savevognnummer/'+${bil.vognnummer}}">Vælg</a></td>
+    <td th:text="${bil.lejepris}"></td>
+    <td><a class="btn btn-outline-primary" th:href="@{'/savevognnummer/'+${bil.vognnummer}}">Vælg</a></td>
   </tr>
-  <td><a th:href="@{'/'}">Cancel</a></td>
 </table>
+
+</div>
 </body>
 </html>

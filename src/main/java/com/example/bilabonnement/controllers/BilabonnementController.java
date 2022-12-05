@@ -44,8 +44,9 @@ public class BilabonnementController {
   @PostMapping("/opretkunde")
   public String opretKunde(@ModelAttribute Kunde kunde){
     bilabonnementRepository.opretKundeDB(kunde.getFornavn(), kunde.getEfternavn(), kunde.getKontaktnummer(), kunde.getEmail());
-    return "redirect:/";
+    return "redirect:/findkundeoverblik";
   }
+
 
 
   @GetMapping("/findkundeoverblik")
@@ -133,7 +134,8 @@ public class BilabonnementController {
   public String showFindBilTilAftale(HttpSession session, Model model){
     ArrayList<Lejebil> bilListe = (ArrayList<Lejebil>)session.getAttribute("bilListe");
     if(bilListe==null) {
-      bilListe = bilabonnementRepository.getAlleLedigeLejebiler();
+      String statusLedig = "Ledig";
+      bilListe = bilabonnementRepository.getBilListeViaStatus(statusLedig);
       session.setAttribute("bilListe",bilListe);
     }
     return "findbiltilaftale";
@@ -170,7 +172,7 @@ public class BilabonnementController {
     String formateretSlutdato = bilabonnementServices.formaterDato(lejeaftale.getSlutDato());
     bilabonnementRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
     bilabonnementRepository.setBilUdlejetDB(lejeaftale.getVognnummer());
-    return "redirect:/";
+    return "redirect:/findkundeoverblik";
   }
 
   @GetMapping("/updateaftale/{id}")
@@ -228,11 +230,13 @@ public class BilabonnementController {
     bilabonnementRepository.opretSkadesrapportDB(skadesrapport);
     bilabonnementRepository.setBilTjekketDB(vognnummer);
     bilabonnementRepository.setAftaleBetaling(skadesrapport.getKontraktID());
-    return "redirect:/";
+    return "redirect:/bilertilskadesrapport";
   }
 
   @GetMapping("/skadesrapport/{id}")
   public String visSkaderapport(@PathVariable("id") int kontraktID, Model model){
+    int kundeID = bilabonnementRepository.findKundeIDMedKontraktID(kontraktID);
+    model.addAttribute("kundeID",kundeID);
     Skadesrapport skadesrapport = bilabonnementRepository.getSkadesrapportViaKontraktID(kontraktID);
     model.addAttribute("skadesrapport",skadesrapport);
     int rapportID = skadesrapport.getRapportID();

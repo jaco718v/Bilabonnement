@@ -1,0 +1,136 @@
+body {
+    margin: 0px
+}
+
+div.produktNavn{
+    height: 11px;
+    font-size: 11px;
+    font-family: Montserrat, sans-serif;
+    text-align: center;
+}
+
+.minFlexSquare{
+    display: flex;
+}
+div.outerNavMain{
+    border-style: solid;
+    border-color: #1892c3;
+    border-radius: 14px;
+    background: #1892c3;
+    margin: 6px;
+}
+
+
+a.minNav{
+    width: 316px;
+    height: 30px;
+    text-align: center;
+    line-height: 25px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #1892c3;
+    font-size: 18px;
+    font-family: Montserrat, sans-serif;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    text-decoration-line: unset;
+}
+
+div.felt{
+    position: relative;
+    align-self: center;
+    background-color: #f2f2f2;
+    width: 100%;
+    height: 100%;
+    min-height: 550px;
+    top: 8px;
+    border-color: #606367;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+div.outerNavSub{
+    border-style: solid;
+    border-color: #606367;
+    border-radius: 14px;
+    background: #606367;
+    margin: 6px;
+    width: 53%;
+    left: 23%;
+    position: relative;
+}
+
+
+a.minSubNav{
+    width: 330px;
+    height: 25px;
+    text-align: center;
+    line-height: 21px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #606367;
+    font-size: 15px;
+    font-family: Montserrat, sans-serif;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    text-decoration-line: unset;
+}
+
+div.overskrift{
+    font-family: "Times New Roman", sans-serif;
+    font-size: 26px;
+    text-decoration-line: underline;
+    position: relative;
+    text-align: center;
+    color: #1892c3;
+}
+
+
+span.tilbageLink{
+    position: relative;
+    text-align: center;
+    padding: 15px;
+    border-width: 2px;
+    border-color: #1892c3;
+    border-style: solid;
+    border-radius: 15px;
+    left: 90%;
+    bottom: 25px;
+}
+
+table.aftaleVis{
+    position: relative;
+    left: 475px;
+    width: 300px;
+    bottom: 58px;
+    border-style: solid;
+}
+
+div.formTekst{
+    display: flex;
+    gap: 94px;
+    align-items: end;
+    align-content: center;
+    margin-left: 400px;
+}
+
+div.normalTekst{
+    margin-left: 40px;
+    margin-top: 5px;
+}
+
+div.alarmOuter{
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 8px;
+    font-size: 12px;
+    width: 275px;
+
+}
+
+span.alarmInner{
+    color: red;
+}

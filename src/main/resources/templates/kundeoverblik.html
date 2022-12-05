@@ -3,21 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Kundeoverblik</title>
+    <link rel="stylesheet" href="/view/bilabonnementMain.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>.datareg{color: dodgerblue !important;}</style>
+    <style>.kundeoverblik{color: dodgerblue !important;}</style>
 </head>
 <body>
-<h1>Lejeaftaler til betaling</h1>
-<table>
+<nav th:replace="fragments/navigationMain :: navigator">Her skal være nav</nav>
+<div class="felt">
+    <nav th:replace="fragments/navigationDatareg :: dataregNav">Her skal være subnav</nav>
+<div class="overskrift">Til betaling</div>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vognnummer</th>
+        <th scope="col">Aftaletype</th>
+        <th scope="col">Stardato</th>
+        <th scope="col">Slutdato</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
     <tr th:each="aftale : ${lejeaftalerBetaling}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/meldaftaleafsluttet/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Autoriser betaling af rapport</a></td>
-        <td><a th:href="@{'/skadesrapport/'+${aftale.kontraktID}}">Se skadesrapport</a></td>
+        <td><a class="btn btn-outline-success" th:href="@{'/meldaftaleafsluttet/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Autoriser betaling af rapport</a></td>
+        <td><a class="btn btn-outline-primary" th:href="@{'/skadesrapport/'+${aftale.kontraktID}}">Se skadesrapport</a></td>
     </tr>
 </table>
-<h1>Lejeaftaler, der afventer skadesrapport</h1>
-<table>
+<div class="overskrift">Afventer skadesrapport</div>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vognnummer</th>
+        <th scope="col">Aftaletype</th>
+        <th scope="col">Stardato</th>
+        <th scope="col">Slutdato</th>
+    </tr>
+    </thead>
     <tr th:each="aftale : ${lejeaftalerVenter}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
@@ -25,29 +50,49 @@
         <td th:text="${aftale.slutDato}"></td>
     </tr>
 </table>
-<h1>Igangværende lejeaftaler</h1>
-<table>
+<div class="overskrift">Igangværende lejeaftaler</div>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vognnummer</th>
+        <th scope="col">Aftaletype</th>
+        <th scope="col">Stardato</th>
+        <th scope="col">Slutdato</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
     <tr th:each="aftale : ${lejeaftalerIgangvaerende}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/meldafleveret/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Meld bil afleveret</a></td>
-        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
-        <td><a th:href="@{'/sletaftale/'+${aftale.kontraktID}}">Slet aftale</a></td>
+        <td><a class="btn btn-outline-success" th:href="@{'/meldafleveret/'+${aftale.vognnummer}+'/'+${aftale.kundeID}}">Meld bil afleveret</a></td>
+        <td><a class="btn btn-outline-warning" th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a class="btn btn-outline-danger" th:href="@{'/sletaftale/'+${aftale.kontraktID}}">Slet aftale</a></td>
     </tr>
 </table>
-<h1>Afsluttede lejeaftaler</h1>
-<table>
+<div class="overskrift">Afsluttede lejeaftaler</div>
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vognnummer</th>
+        <th scope="col">Aftaletype</th>
+        <th scope="col">Stardato</th>
+        <th scope="col">Slutdato</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
     <tr th:each="aftale : ${lejeaftalerAfsluttet}">
         <td th:text="${aftale.vognnummer}"></td>
         <td th:text="${aftale.aftaleType}"></td>
         <td th:text="${aftale.startDato}"></td>
         <td th:text="${aftale.slutDato}"></td>
-        <td><a th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
+        <td><a class="btn btn-outline-warning" th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
-
 </table>
-<a th:href="@{'/'}">Retur</a>
+<a th:href="@{'/findkundeoverblik/'}">Tilbage</a>
+</div>
 </body>
 </html>

@@ -1,8 +1,8 @@
 package com.example.bilabonnement.model;
 
 public class Skadesrapport {
-  private int kontraktID;
   private int rapportID;
+  private int kontraktID;
   private int overkoerteKilometer;
   private boolean manglendeService;
   private boolean manglendeRengoering;
@@ -17,9 +17,9 @@ public class Skadesrapport {
     this.kontraktID=kontraktID;
   }
 
-  public Skadesrapport(int kontraktID, int rapportID, int overkoerteKilometer, boolean manglendeService, boolean manglendeRengoering, boolean manglendeDaekskifte, int lakfeltSkade, int alufaelgSkade, int stenslagSkade) {
-    this.kontraktID = kontraktID;
+  public Skadesrapport(int rapportID, int kontraktID, int overkoerteKilometer, boolean manglendeService, boolean manglendeRengoering, boolean manglendeDaekskifte, int lakfeltSkade, int alufaelgSkade, int stenslagSkade) {
     this.rapportID = rapportID;
+    this.kontraktID = kontraktID;
     this.overkoerteKilometer = overkoerteKilometer;
     this.manglendeService = manglendeService;
     this.manglendeRengoering = manglendeRengoering;

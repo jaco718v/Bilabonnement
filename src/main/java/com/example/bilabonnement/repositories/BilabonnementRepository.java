@@ -86,6 +86,24 @@ public class BilabonnementRepository {
     return null;
   }
 
+  public int findKundeIDMedKontraktID(int kontraktID){
+    int kundeID = 0;
+    try {
+      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
+      String sqlQuery = "SELECT kunde_id FROM lejeaftaler WHERE kontrakt_id=?";
+      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
+      pstm.setInt(1, kontraktID);
+      ResultSet resultSet = pstm.executeQuery();
+      resultSet.next();
+      kundeID = resultSet.getInt(1);
+
+    } catch (SQLException e) {
+      System.out.println("Couldn't connect to db");
+      e.printStackTrace();
+    }
+    return kundeID;
+  }
+
   public ArrayList<Kunde> getAlleKunder(){
     ArrayList<Kunde> kunder = new ArrayList<>();
     try{
@@ -172,19 +190,19 @@ public class BilabonnementRepository {
   }
 
   public ArrayList<Lejebil> getBilListeViaStatus(String status) {
-    ArrayList<Lejebil> afleveretBilListe = new ArrayList<>();
+    ArrayList<Lejebil> BilListeAfStatus = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status=? ORDER BY model";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1, status);
       ResultSet resultSet = pstm.executeQuery();
-      afleveretBilListe = lavBilListe(resultSet);
+      BilListeAfStatus = lavBilListe(resultSet);
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
-    return afleveretBilListe;
+    return BilListeAfStatus;
   }
 
   public void setBilAfleveret(int vognnummer) {
@@ -239,22 +257,6 @@ public class BilabonnementRepository {
     }
   }
 
-  public ArrayList<Lejebil> getAlleLedigeLejebiler(){
-    ArrayList<Lejebil> lejebiler = new ArrayList<>();
-    try{
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status='Ledig'";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      ResultSet resultSet = pstm.executeQuery();
-      lejebiler = lavBilListe(resultSet);
-
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-    return lejebiler;
-  }
-
 
 
   public void opretLejeaftaleDB(int kundeID, int vognnummer, String aftaletype,
@@ -278,7 +280,6 @@ public class BilabonnementRepository {
       e.printStackTrace();
     }
   }
-
 
   public void setAftaleVenter(int vognnummer) {
     try {
@@ -502,6 +503,31 @@ public class BilabonnementRepository {
     }
   }
 
+  public Skadesrapport getSkadesrapportViaKontraktID(int kontraktID) {
+    Skadesrapport skadesrapport = new Skadesrapport();
+    try {
+      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
+      String sqlQuery = "SELECT * FROM skadesrapporter WHERE kontrakt_id=?";
+      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
+      pstm.setInt(1, kontraktID);
+      ResultSet resultSet = pstm.executeQuery();
+      resultSet.next();
+      skadesrapport.setRapportID(resultSet.getInt(1));
+      skadesrapport.setKontraktID(resultSet.getInt(2));
+      skadesrapport.setOverkoerteKilometer(resultSet.getInt(3));
+      skadesrapport.setManglendeService(resultSet.getBoolean(4));
+      skadesrapport.setManglendeRengoering(resultSet.getBoolean(5));
+      skadesrapport.setManglendeDaekskifte(resultSet.getBoolean(6));
+      skadesrapport.setLakfeltSkade(resultSet.getInt(7));
+      skadesrapport.setAlufaelgSkade(resultSet.getInt(8));
+      skadesrapport.setStenslagSkade(resultSet.getInt(9));
+    } catch (SQLException e) {
+      System.out.println("Couldn't connect to db");
+      e.printStackTrace();
+    }
+    return skadesrapport;
+  }
+
   public Skadesafgifter getSkadesafgifterViaRapportID(int rapportID){
     Skadesafgifter skadesafgifter = new Skadesafgifter();
     try {
@@ -525,31 +551,6 @@ public class BilabonnementRepository {
       e.printStackTrace();
     }
     return skadesafgifter;
-  }
-
-  public Skadesrapport getSkadesrapportViaKontraktID(int kontraktID) {
-    Skadesrapport skadesrapport = new Skadesrapport();
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM skadesrapporter WHERE kontrakt_id=?";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      pstm.setInt(1, kontraktID);
-      ResultSet resultSet = pstm.executeQuery();
-      resultSet.next();
-      skadesrapport.setKontraktID(resultSet.getInt(1));
-      skadesrapport.setRapportID(resultSet.getInt(2));
-      skadesrapport.setOverkoerteKilometer(resultSet.getInt(3));
-      skadesrapport.setManglendeService(resultSet.getBoolean(4));
-      skadesrapport.setManglendeRengoering(resultSet.getBoolean(5));
-      skadesrapport.setManglendeDaekskifte(resultSet.getBoolean(6));
-      skadesrapport.setLakfeltSkade(resultSet.getInt(7));
-      skadesrapport.setAlufaelgSkade(resultSet.getInt(8));
-      skadesrapport.setStenslagSkade(resultSet.getInt(9));
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-    return skadesrapport;
   }
 
 
