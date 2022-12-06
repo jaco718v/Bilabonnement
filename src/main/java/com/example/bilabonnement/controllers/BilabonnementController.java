@@ -101,7 +101,7 @@ public class BilabonnementController {
   @GetMapping("/meldaftaleafsluttet/{vognnummer}/{kundeID}")
   public String meldAftaleAfsluttet(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
     bilabonnementRepository.setAftaleAfsluttet(vognnummer);
-    bilabonnementRepository.setBilLedigDB(vognnummer);
+    bilabonnementRepository.setBilLedig(vognnummer);
     return "redirect:/kundeoverblik/{kundeID}";
   }
 
@@ -171,7 +171,7 @@ public class BilabonnementController {
   public String opretAftale(@ModelAttribute Lejeaftale lejeaftale){   //Test om virker
     String formateretSlutdato = bilabonnementServices.formaterDato(lejeaftale.getSlutDato());
     bilabonnementRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
-    bilabonnementRepository.setBilUdlejetDB(lejeaftale.getVognnummer());
+    bilabonnementRepository.setBilUdlejet(lejeaftale.getVognnummer());
     return "redirect:/findkundeoverblik";
   }
 
@@ -184,7 +184,7 @@ public class BilabonnementController {
 
   @PostMapping("/updateaftale")
   public String updaterAftale(@ModelAttribute Lejeaftale lejeaftale, RedirectAttributes redirectAttributes){
-    bilabonnementRepository.updaterLejeaftale(lejeaftale);
+    bilabonnementRepository.updaterLejeaftaleDB(lejeaftale);
     redirectAttributes.addAttribute("id",lejeaftale.getKundeID());
   return "redirect:/redirectoverblik";
   }
@@ -198,7 +198,7 @@ public class BilabonnementController {
   public String sletLejeaftale(@PathVariable("id") int kontraktID){
     int vognnummer = bilabonnementRepository.findLejeaftaleViaKontraktID(kontraktID).getVognnummer();
     bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
-    bilabonnementRepository.setBilLedigDB(vognnummer);
+    bilabonnementRepository.setBilLedig(vognnummer);
     return "redirect:/kundeoverblik/{id}"; //Tilbage placeholder
   }
 
@@ -228,7 +228,7 @@ public class BilabonnementController {
   @PostMapping("/opretskadesrapport")
   public String opretSkadesrapport(@ModelAttribute Skadesrapport skadesrapport, @RequestParam("vognnummer") int vognnummer){
     bilabonnementRepository.opretSkadesrapportDB(skadesrapport);
-    bilabonnementRepository.setBilTjekketDB(vognnummer);
+    bilabonnementRepository.setBilTjekket(vognnummer);
     bilabonnementRepository.setAftaleBetaling(skadesrapport.getKontraktID());
     return "redirect:/bilertilskadesrapport";
   }

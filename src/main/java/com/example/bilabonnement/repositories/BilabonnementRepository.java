@@ -218,7 +218,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public void setBilUdlejetDB(int vognnummer) {
+  public void setBilUdlejet(int vognnummer) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlUpdate = "UPDATE lejebiler SET lejebil_status = 'Udlejet' Where vognnummer = ?";
@@ -231,7 +231,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public void setBilTjekketDB(int vognnummer) {
+  public void setBilTjekket(int vognnummer) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlUpdate = "UPDATE lejebiler SET lejebil_status = 'Tjekket' Where vognnummer = ?";
@@ -244,7 +244,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public void setBilLedigDB(int vognnummer) {
+  public void setBilLedig(int vognnummer) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlUpdate = "UPDATE lejebiler SET lejebil_status = 'Ledig' Where vognnummer = ?";
@@ -375,7 +375,7 @@ public class BilabonnementRepository {
     return  lejeaftale;
   }
 
-  public void updaterLejeaftale(Lejeaftale lejeaftale){
+  public void updaterLejeaftaleDB(Lejeaftale lejeaftale){
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlUpdate = "UPDATE lejeaftaler SET aftaletype=?," +
@@ -396,8 +396,8 @@ public class BilabonnementRepository {
 
   public void sletLejeaftaleOgRelateret(int kontrakt_id){
     try {
-      sletSkadesafgifter(kontrakt_id);
-      sletSkadesrapport(kontrakt_id);
+      sletSkadesafgifterDB(kontrakt_id);
+      sletSkadesrapportDB(kontrakt_id);
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlDelete = "DELETE FROM lejeaftaler WHERE kontrakt_id=?";
       PreparedStatement pstm = conn.prepareStatement(sqlDelete);
@@ -465,7 +465,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public void sletSkadesrapport(int kontraktID){
+  public void sletSkadesrapportDB(int kontraktID){
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlDelete = "DELETE FROM skadesrapporter WHERE kontrakt_id=?";
@@ -480,7 +480,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public void sletSkadesafgifter(int kontraktID){
+  public void sletSkadesafgifterDB(int kontraktID){
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlQuery ="SELECT rapport_id FROM skadesrapporter WHERE kontrakt_id=?";
@@ -608,21 +608,5 @@ public class BilabonnementRepository {
       }
     return manglendeFabrikanter;
   }
-
-  public int findRapportIDViaKontraktID(int kontraktID) {
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT rapport_id FROM skadesrapporter WHERE kontrakt_id=?";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      pstm.setInt(1, kontraktID);
-      ResultSet resultSet = pstm.executeQuery();
-      resultSet.next();
-      int rapportID = resultSet.getInt(1);
-      return rapportID;
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-    return -1;
-  }
+  
 }
