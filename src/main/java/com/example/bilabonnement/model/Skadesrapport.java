@@ -11,6 +11,16 @@ public class Skadesrapport {
   private int alufaelgSkade;
   private int stenslagSkade;
 
+  private Skadesafgifter skadesafgifter;
+
+  public Skadesafgifter getSkadesafgifter() {
+    return skadesafgifter;
+  }
+
+  public void setSkadesafgifter(Skadesafgifter skadesafgifter) {
+    this.skadesafgifter = skadesafgifter;
+  }
+
   public Skadesrapport(){}
 
   public Skadesrapport(int kontraktID){

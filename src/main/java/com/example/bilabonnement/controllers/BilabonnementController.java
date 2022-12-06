@@ -239,8 +239,7 @@ public class BilabonnementController {
     model.addAttribute("kundeID",kundeID);
     Skadesrapport skadesrapport = bilabonnementRepository.findSkadesrapportViaKontraktID(kontraktID);
     model.addAttribute("skadesrapport",skadesrapport);
-    int rapportID = skadesrapport.getRapportID();
-    Skadesafgifter skadesafgifter = bilabonnementRepository.findSkadesafgifterViaRapportID(rapportID);
+    Skadesafgifter skadesafgifter = skadesrapport.getSkadesafgifter();
     model.addAttribute("skadesafgifter",skadesafgifter);
 
     return "skadesrapport";
