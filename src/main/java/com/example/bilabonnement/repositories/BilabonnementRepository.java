@@ -104,7 +104,7 @@ public class BilabonnementRepository {
     return kundeID;
   }
 
-  public ArrayList<Kunde> getAlleKunder(){
+  public ArrayList<Kunde> findAlleKunder(){
     ArrayList<Kunde> kunder = new ArrayList<>();
     try{
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -189,7 +189,7 @@ public class BilabonnementRepository {
     return bilListe;
   }
 
-  public ArrayList<Lejebil> getBilListeViaStatus(String status) {
+  public ArrayList<Lejebil> findBilListeViaStatus(String status) {
     ArrayList<Lejebil> BilListeAfStatus = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -320,7 +320,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public ArrayList<Lejeaftale> getLejeaftalerViaKundeIDOgStatus(int kundeID, String status){
+  public ArrayList<Lejeaftale> findLejeaftalerViaKundeIDOgStatus(int kundeID, String status){
     ArrayList<Lejeaftale> aftaleListe = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
@@ -359,7 +359,7 @@ public class BilabonnementRepository {
     return aftaleListe;
   }
 
-  public Lejeaftale getLejeaftaleViaKontraktID(int kontraktID){
+  public Lejeaftale findLejeaftaleViaKontraktID(int kontraktID){
     Lejeaftale lejeaftale = new Lejeaftale();
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
@@ -375,7 +375,7 @@ public class BilabonnementRepository {
     return  lejeaftale;
   }
 
-  public void updateLejeaftale(Lejeaftale lejeaftale){
+  public void updaterLejeaftale(Lejeaftale lejeaftale){
     try {
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlUpdate = "UPDATE lejeaftaler SET aftaletype=?," +
@@ -503,7 +503,7 @@ public class BilabonnementRepository {
     }
   }
 
-  public Skadesrapport getSkadesrapportViaKontraktID(int kontraktID) {
+  public Skadesrapport findSkadesrapportViaKontraktID(int kontraktID) {
     Skadesrapport skadesrapport = new Skadesrapport();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -528,7 +528,7 @@ public class BilabonnementRepository {
     return skadesrapport;
   }
 
-  public Skadesafgifter getSkadesafgifterViaRapportID(int rapportID){
+  public Skadesafgifter findSkadesafgifterViaRapportID(int rapportID){
     Skadesafgifter skadesafgifter = new Skadesafgifter();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
@@ -609,7 +609,7 @@ public class BilabonnementRepository {
     return manglendeFabrikanter;
   }
 
-  public int getRapportIDViaKontraktID(int kontraktID) {
+  public int findRapportIDViaKontraktID(int kontraktID) {
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
       String sqlQuery = "SELECT rapport_id FROM skadesrapporter WHERE kontrakt_id=?";
