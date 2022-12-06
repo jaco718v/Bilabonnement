@@ -521,6 +521,8 @@ public class BilabonnementRepository {
       skadesrapport.setLakfeltSkade(resultSet.getInt(7));
       skadesrapport.setAlufaelgSkade(resultSet.getInt(8));
       skadesrapport.setStenslagSkade(resultSet.getInt(9));
+      Skadesafgifter skadesafgifter = findSkadesafgifterViaRapportID(skadesrapport.getRapportID());
+      skadesrapport.setSkadesafgifter(skadesafgifter);
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
@@ -608,5 +610,5 @@ public class BilabonnementRepository {
       }
     return manglendeFabrikanter;
   }
-  
+
 }
