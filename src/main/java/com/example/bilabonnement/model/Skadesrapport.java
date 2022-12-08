@@ -32,6 +32,10 @@ public class Skadesrapport {
     this.stenslagSkade = stenslagSkade;
   }
 
+  public void opretSkadesafgifter(){
+    this.skadesafgifter = new Skadesafgifter( rapportID, kontraktID, overkoerteKilometer, manglendeService, manglendeRengoering, manglendeDaekskifte, lakfeltSkade, alufaelgSkade, stenslagSkade);
+  }
+
 
   public int getOverkoerteKilometer() {
     return overkoerteKilometer;

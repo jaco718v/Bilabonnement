@@ -396,7 +396,6 @@ public class BilabonnementRepository {
 
   public void sletLejeaftaleOgRelateret(int kontrakt_id){
     try {
-      sletSkadesafgifterDB(kontrakt_id);
       sletSkadesrapportDB(kontrakt_id);
       Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
       String sqlDelete = "DELETE FROM lejeaftaler WHERE kontrakt_id=?";
@@ -433,37 +432,13 @@ public class BilabonnementRepository {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
-    // Get rapportID
+
     skadesrapport.setRapportID(findRapportIDMedKontraktID(skadesrapport.getKontraktID()));
 
-    opretSkadeafgifterDB(new Skadesafgifter(skadesrapport));
+    skadesrapport.opretSkadesafgifter();
 
   }
 
-  public void opretSkadeafgifterDB(Skadesafgifter skadesafgifter) {
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlInsert = "INSERT INTO skadesafgifter(rapport_id, afgift_overkørte_kilometer, afgift_manglende_service, " +
-          "afgift_manglende_rengøring, afgift_manglende_dækskifte, afgift_lakfelt_skade, " +
-          "afgift_alufælg_skade, afgift_stenslag_skade)" +
-          "VALUES(?,?,?,?,?,?,?,?)";
-      PreparedStatement psmt = conn.prepareStatement(sqlInsert);
-      psmt.setInt(1, skadesafgifter.getRapportID());
-      psmt.setDouble(2, skadesafgifter.getAfgiftOverkoerteKilometer());
-      psmt.setDouble(3, skadesafgifter.getAfgiftManglendeService());
-      psmt.setDouble(4, skadesafgifter.getAfgiftManglendeRengoering());
-      psmt.setDouble(5, skadesafgifter.getAfgiftManglendeDaekskifte());
-      psmt.setDouble(6, skadesafgifter.getAfgiftLakfeltSkade());
-      psmt.setDouble(7, skadesafgifter.getAfgiftAlufaelgSkade());
-      psmt.setDouble(8, skadesafgifter.getAfgiftStenslagSkade());
-
-      psmt.executeUpdate();
-
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-  }
 
   public void sletSkadesrapportDB(int kontraktID){
     try {
@@ -480,28 +455,6 @@ public class BilabonnementRepository {
     }
   }
 
-  public void sletSkadesafgifterDB(int kontraktID){
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url,uid,pwd);
-      String sqlQuery ="SELECT rapport_id FROM skadesrapporter WHERE kontrakt_id=?";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      pstm.setInt(1,kontraktID);
-      ResultSet resultSet = pstm.executeQuery();
-      if(resultSet.next()){
-      int rapportID = resultSet.getInt(1);
-
-      String sqlDelete = "DELETE FROM skadesafgifter WHERE rapport_id=?";
-      pstm = conn.prepareStatement(sqlDelete);
-      pstm.setInt(1,rapportID);
-
-      pstm.executeUpdate();
-      }
-
-    } catch (SQLException e){
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-  }
 
   public Skadesrapport findSkadesrapportViaKontraktID(int kontraktID) {
     Skadesrapport skadesrapport = new Skadesrapport();
@@ -521,41 +474,13 @@ public class BilabonnementRepository {
       skadesrapport.setLakfeltSkade(resultSet.getInt(7));
       skadesrapport.setAlufaelgSkade(resultSet.getInt(8));
       skadesrapport.setStenslagSkade(resultSet.getInt(9));
-      Skadesafgifter skadesafgifter = findSkadesafgifterViaRapportID(skadesrapport.getRapportID());
-      skadesrapport.setSkadesafgifter(skadesafgifter);
+      skadesrapport.opretSkadesafgifter();
     } catch (SQLException e) {
       System.out.println("Couldn't connect to db");
       e.printStackTrace();
     }
     return skadesrapport;
   }
-
-  public Skadesafgifter findSkadesafgifterViaRapportID(int rapportID){
-    Skadesafgifter skadesafgifter = new Skadesafgifter();
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM skadesafgifter WHERE rapport_id=?";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      pstm.setInt(1, rapportID);
-      ResultSet resultSet = pstm.executeQuery();
-      resultSet.next();
-      skadesafgifter.setRapportID(resultSet.getInt(1));
-      skadesafgifter.setAfgiftOverkoerteKilometer(resultSet.getDouble(2));
-      skadesafgifter.setAfgiftManglendeService(resultSet.getDouble(3));
-      skadesafgifter.setAfgiftManglendeRengoering(resultSet.getDouble(4));
-      skadesafgifter.setAfgiftManglendeDaekskifte(resultSet.getDouble(5));
-      skadesafgifter.setAfgiftLakfeltSkade(resultSet.getDouble(6));
-      skadesafgifter.setAfgiftAlufaelgSkade(resultSet.getDouble(7));
-      skadesafgifter.setAfgiftStenslagSkade(resultSet.getDouble(8));
-
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-    return skadesafgifter;
-  }
-
-
 
   public int findKontraktIDMedVognnummer(int vognnummer) {
     int kontraktID = 0;

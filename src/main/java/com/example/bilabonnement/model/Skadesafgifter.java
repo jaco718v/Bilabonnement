@@ -14,31 +14,31 @@ public class Skadesafgifter {
 
   public Skadesafgifter(){}
 
-  public Skadesafgifter(Skadesrapport skadesrapport){
-    rapportID = skadesrapport.getRapportID();
+  public Skadesafgifter(int rapportID, int kontraktID, int overkoerteKilometer, boolean manglendeService, boolean manglendeRengoering, boolean manglendeDaekskifte, int lakfeltSkade, int alufaelgSkade, int stenslagSkade){
+    this.rapportID = rapportID;
     double kilometerPris = 1.5;
-    afgiftOverkoerteKilometer = skadesrapport.getOverkoerteKilometer()*kilometerPris;
+    afgiftOverkoerteKilometer = overkoerteKilometer*kilometerPris;
 
     double servicePris = 2500;
-    if(skadesrapport.isManglendeService()){
+    if(manglendeService){
       afgiftManglendeService=servicePris;}
 
     double rengøringPris = 999;
-    if(skadesrapport.isManglendeRengoering()){
+    if(manglendeRengoering){
       afgiftManglendeRengoering =rengøringPris;
     }
     double dækPris = 999;
-    if(skadesrapport.isManglendeDaekskifte()){
+    if(manglendeDaekskifte){
       afgiftManglendeDaekskifte =dækPris;
     }
     double lakfeltPris = 1500;
-    afgiftLakfeltSkade = skadesrapport.getLakfeltSkade()*lakfeltPris;
+    afgiftLakfeltSkade = lakfeltSkade*lakfeltPris;
     double alufælgPris = 400;
-    afgiftAlufaelgSkade = skadesrapport.getAlufaelgSkade()*alufælgPris;
+    afgiftAlufaelgSkade = alufaelgSkade*alufælgPris;
     double stenslagAfgiftInitialExtra = 350;
     double stenslagAfgiftEfterfølgende = 300;
-    if(skadesrapport.getStenslagSkade()>0){
-    afgiftStenslagSkade = skadesrapport.getStenslagSkade()*stenslagAfgiftEfterfølgende+stenslagAfgiftInitialExtra;}
+    if(stenslagSkade>0){
+    afgiftStenslagSkade = stenslagSkade*stenslagAfgiftEfterfølgende+stenslagAfgiftInitialExtra;}
   }
 
   public void setRapportID(int rapportID) {

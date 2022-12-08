@@ -53,13 +53,3 @@ CREATE TABLE skadesrapporter(
                                 PRIMARY KEY(rapport_id),
                                 FOREIGN KEY(kontrakt_id) REFERENCES lejeaftaler(kontrakt_id));
 
-CREATE TABLE skadesafgifter(
-                               rapport_id int,
-                               afgift_overkørte_kilometer double,
-                               afgift_manglende_service double,
-                               afgift_manglende_rengøring double,
-                               afgift_manglende_dækskifte double,
-                               afgift_lakfelt_skade double,
-                               afgift_alufælg_skade double,
-                               afgift_stenslag_skade double,
-                               FOREIGN KEY(rapport_id) REFERENCES skadesrapporter(rapport_id));
