@@ -36,7 +36,7 @@ public class BilabonnementController {
 
   @GetMapping("/opretkunde")
   public String visOpretKunde(Model model){
-    Kunde kunde = new Kunde();
+    Kunde kunde = bilabonnementRepository.newKunde();
     model.addAttribute("kunde",kunde);
     return "opretkunde";
   }
@@ -157,7 +157,7 @@ public class BilabonnementController {
 
   @GetMapping("/opretaftale")
   public String visOpretAftale(HttpSession session ,Model model){
-    Lejeaftale lejeaftale = new Lejeaftale();
+    Lejeaftale lejeaftale = bilabonnementRepository.newLejeaftale();
     model.addAttribute("lejeaftale",lejeaftale);
     model.addAttribute("kunde",bilabonnementRepository.findKundeMedID((int)session.getAttribute("kundeID")));
     model.addAttribute("bil", bilabonnementRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
@@ -218,7 +218,7 @@ public class BilabonnementController {
   @GetMapping("/opretskadesrapport/{id}")
   public String visOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){
     int kontraktID = bilabonnementRepository.findKontraktIDMedVognnummer(vognnummer);
-    Skadesrapport skadesrapport = new Skadesrapport(kontraktID);
+    Skadesrapport skadesrapport = bilabonnementRepository.newSkadesrapport(kontraktID);
     model.addAttribute("vognnummer", vognnummer);
     model.addAttribute("skadesrapport",skadesrapport);
 

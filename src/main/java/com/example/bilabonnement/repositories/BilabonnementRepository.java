@@ -611,4 +611,17 @@ public class BilabonnementRepository {
     return manglendeFabrikanter;
   }
 
+
+
+  public Kunde newKunde(){
+    return new Kunde();
+  }
+
+  public Lejeaftale newLejeaftale(){
+    return new Lejeaftale();
+  }
+
+  public Skadesrapport newSkadesrapport(int kontraktID){
+    return newSkadesrapport(kontraktID);
+  }
 }
