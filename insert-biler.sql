@@ -1,3 +1,5 @@
+USE bilabonnement;
+
 INSERT INTO lejebiler(fabrikant, model, lejepris, lejebil_farve, kilometerpakke)
 VALUES('Opel', 'Crossland', 3199, 'Sølv', 2000 );
 
