@@ -61,7 +61,8 @@ public class BilabonnementController {
 
   @PostMapping("/findkundeoverblik")
   public String findKundeOverblik(@RequestParam("fornavn") String fornavn, HttpSession session){
-    ArrayList<Kunde> kundeListe = bilabonnementRepository.findKunderMedFornavn(fornavn);
+    ArrayList<Kunde> kundeListe = bilabonnementRepository.findAlleKunder();
+    kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe,fornavn);
     session.setAttribute("kundeListe",kundeListe);
     return "redirect:/findkundeoverblik";
   }
@@ -119,7 +120,8 @@ public class BilabonnementController {
 
   @PostMapping("/findkundetilaftale")
   public String findKundeTilAftale(@RequestParam("fornavn") String fornavn, HttpSession session){
-    ArrayList<Kunde> kundeListe = bilabonnementRepository.findKunderMedFornavn(fornavn);
+    ArrayList<Kunde> kundeListe = bilabonnementRepository.findAlleKunder();
+    kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe,fornavn);
     session.setAttribute("kundeListe",kundeListe);
     return "redirect:/findkundetilaftale";
   }
@@ -144,7 +146,9 @@ public class BilabonnementController {
   @PostMapping("/findbiltilaftale")
   public String findBilTilAftale(@RequestParam("fabrikant") String fabrikant,
                                  HttpSession session){
-    ArrayList<Lejebil> bilListe = bilabonnementRepository.findBilerFraFabrikant(fabrikant);
+    String bilStatus = "Ledig";
+    ArrayList<Lejebil> bilListe = bilabonnementRepository.findBilListeViaStatus(bilStatus);
+    bilListe = bilabonnementServices.søgeFunktionBiler(bilListe,fabrikant);
     session.setAttribute("bilListe",bilListe);
     return "redirect:/findbiltilaftale";
   }

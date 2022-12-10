@@ -1,5 +1,6 @@
 package com.example.bilabonnement.services;
 
+import com.example.bilabonnement.model.Kunde;
 import com.example.bilabonnement.model.Lejebil;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +56,32 @@ public class BilabonnementServices {
     return formateretDato;
   }
 
-  /*public String capitalize(String word){
-    String capitalized = word.substring(0,1).toUpperCase()+word.substring(1);
-    return capitalized;
-  }*/
+  public ArrayList<Kunde> søgeFunktionKunder(ArrayList<Kunde> kundeliste, String søgeOrd){
+    ArrayList<Kunde> fundneKunder = new ArrayList<>();
+    int antalChar = søgeOrd.length();
+    for(Kunde kunde: kundeliste){
+      if (kunde.getFornavn().length()>=antalChar) {
+        String kundeCompare = kunde.getFornavn().substring(0, antalChar);
+        if (søgeOrd.equalsIgnoreCase(kundeCompare)){
+          fundneKunder.add(kunde);
+        }
+      }
+    }
+    return  fundneKunder;
+  }
+
+  public ArrayList<Lejebil> søgeFunktionBiler(ArrayList<Lejebil> billiste, String søgeOrd){
+    ArrayList<Lejebil> fundneBiler = new ArrayList<>();
+    int antalChar = søgeOrd.length();
+    for(Lejebil bil: billiste){
+      if (bil.getFabrikant().length()>=antalChar) {
+        String kundeCompare = bil.getFabrikant().substring(0, antalChar);
+        if (søgeOrd.equalsIgnoreCase(kundeCompare)){
+          fundneBiler.add(bil);
+        }
+      }
+    }
+    return  fundneBiler;
+  }
+
 }

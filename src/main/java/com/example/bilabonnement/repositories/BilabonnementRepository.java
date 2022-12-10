@@ -173,22 +173,6 @@ public class BilabonnementRepository {
     return bilListe.get(0);
   }
 
-  public ArrayList<Lejebil> findBilerFraFabrikant(String fabrikant) {
-    ArrayList<Lejebil> bilListe = new ArrayList<>();
-    try {
-      Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE fabrikant=? and lejebil_status='ledig' ORDER BY model";
-      PreparedStatement pstm = conn.prepareStatement(sqlQuery);
-      pstm.setString(1, fabrikant);
-      ResultSet resultSet = pstm.executeQuery();
-      bilListe = lavBilListe(resultSet);
-    } catch (SQLException e) {
-      System.out.println("Couldn't connect to db");
-      e.printStackTrace();
-    }
-    return bilListe;
-  }
-
   public ArrayList<Lejebil> findBilListeViaStatus(String status) {
     ArrayList<Lejebil> BilListeAfStatus = new ArrayList<>();
     try {
