@@ -2,7 +2,9 @@ package com.example.bilabonnement.controllers;
 
 
 import com.example.bilabonnement.model.*;
-import com.example.bilabonnement.repositories.BilabonnementRepository;
+import com.example.bilabonnement.repositories.DataRegRepository;
+import com.example.bilabonnement.repositories.ForretningsRepository;
+import com.example.bilabonnement.repositories.SkadeUdbedingRepository;
 import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +17,16 @@ import java.util.ArrayList;
 @Controller
 public class BilabonnementController {
 
-  BilabonnementRepository bilabonnementRepository;
+  DataRegRepository dataRegRepository;
+  ForretningsRepository forretningsRepository;
+  SkadeUdbedingRepository skadeUdbedingRepository;
   BilabonnementServices bilabonnementServices;
 
-  public BilabonnementController(BilabonnementRepository r, BilabonnementServices s){
-    bilabonnementRepository = r;
+  public BilabonnementController(DataRegRepository r, BilabonnementServices s, ForretningsRepository f, SkadeUdbedingRepository su){
+    dataRegRepository = r;
     bilabonnementServices = s;
+    forretningsRepository = f;
+    skadeUdbedingRepository =su;
   }
 
 
@@ -36,14 +42,14 @@ public class BilabonnementController {
 
   @GetMapping("/opretkunde")
   public String visOpretKunde(Model model){
-    Kunde kunde = bilabonnementRepository.newKunde();
+    Kunde kunde = dataRegRepository.newKunde();
     model.addAttribute("kunde",kunde);
     return "opretkunde";
   }
 
   @PostMapping("/opretkunde")
   public String opretKunde(@ModelAttribute Kunde kunde){
-    bilabonnementRepository.opretKundeDB(kunde.getFornavn(), kunde.getEfternavn(), kunde.getKontaktnummer(), kunde.getEmail());
+    dataRegRepository.opretKundeDB(kunde.getFornavn(), kunde.getEfternavn(), kunde.getKontaktnummer(), kunde.getEmail());
     return "redirect:/findkundeoverblik";
   }
 
@@ -53,7 +59,7 @@ public class BilabonnementController {
   public String visFindKundeOverblik(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
     if(kundeListe==null)
-    {kundeListe = bilabonnementRepository.findAlleKunder();
+    {kundeListe = dataRegRepository.findAlleKunder();
       session.setAttribute("kundeListe",kundeListe);
     }
     return "findkundeoverblik";
@@ -61,7 +67,7 @@ public class BilabonnementController {
 
   @PostMapping("/findkundeoverblik")
   public String findKundeOverblik(@RequestParam("fornavn") String fornavn, HttpSession session){
-    ArrayList<Kunde> kundeListe = bilabonnementRepository.findAlleKunder();
+    ArrayList<Kunde> kundeListe = dataRegRepository.findAlleKunder();
     kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe,fornavn);
     session.setAttribute("kundeListe",kundeListe);
     return "redirect:/findkundeoverblik";
@@ -71,22 +77,22 @@ public class BilabonnementController {
   public String visLejeAftaler(@PathVariable("id") int kundeID, Model model){
     String betalingStatus ="betaling";
     ArrayList<Lejeaftale> lejeaftalerBetaling =
-        bilabonnementRepository.findLejeaftalerViaKundeIDOgStatus(kundeID,betalingStatus);
+        dataRegRepository.findLejeaftalerViaKundeIDOgStatus(kundeID,betalingStatus);
     model.addAttribute("lejeaftalerBetaling",lejeaftalerBetaling);
 
     String venterStatus = "venter";
     ArrayList<Lejeaftale> lejeaftalerVenter =
-        bilabonnementRepository.findLejeaftalerViaKundeIDOgStatus(kundeID,venterStatus);
+        dataRegRepository.findLejeaftalerViaKundeIDOgStatus(kundeID,venterStatus);
     model.addAttribute("lejeaftalerVenter",lejeaftalerVenter);
 
     String igangværendeStatus = "igangværende";
     ArrayList<Lejeaftale> lejeaftalerIgangværende =
-        bilabonnementRepository.findLejeaftalerViaKundeIDOgStatus(kundeID, igangværendeStatus);
+        dataRegRepository.findLejeaftalerViaKundeIDOgStatus(kundeID, igangværendeStatus);
     model.addAttribute("lejeaftalerIgangvaerende", lejeaftalerIgangværende);
 
     String afsluttetStatus = "afsluttet";
     ArrayList<Lejeaftale> lejeaftalerAfsluttet =
-        bilabonnementRepository.findLejeaftalerViaKundeIDOgStatus(kundeID, afsluttetStatus);
+        dataRegRepository.findLejeaftalerViaKundeIDOgStatus(kundeID, afsluttetStatus);
     model.addAttribute("lejeaftalerAfsluttet",lejeaftalerAfsluttet);
 
     return "kundeoverblik";
@@ -94,15 +100,15 @@ public class BilabonnementController {
 
   @GetMapping("/meldafleveret/{vognnummer}/{kundeID}")
   public String meldBilAfleveret(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
-    bilabonnementRepository.setBilAfleveret(vognnummer);
-    bilabonnementRepository.setAftaleVenter(vognnummer);
+    forretningsRepository.setBilAfleveret(vognnummer);
+    dataRegRepository.setAftaleVenter(vognnummer);
     return "redirect:/kundeoverblik/{kundeID}";
   }
 
   @GetMapping("/meldaftaleafsluttet/{vognnummer}/{kundeID}")
   public String meldAftaleAfsluttet(@PathVariable("vognnummer") int vognnummer, @PathVariable("kundeID") int kundeID){
-    bilabonnementRepository.setAftaleAfsluttet(vognnummer);
-    bilabonnementRepository.setBilLedig(vognnummer);
+    dataRegRepository.setAftaleAfsluttet(vognnummer);
+    forretningsRepository.setBilLedig(vognnummer);
     return "redirect:/kundeoverblik/{kundeID}";
   }
 
@@ -112,7 +118,7 @@ public class BilabonnementController {
   public String visFindKundeTilAftale(HttpSession session){
     ArrayList<Kunde> kundeListe = (ArrayList<Kunde>)session.getAttribute("kundeListe");
     if(kundeListe==null) {
-      kundeListe = bilabonnementRepository.findAlleKunder();
+      kundeListe = dataRegRepository.findAlleKunder();
       session.setAttribute("kundeListe",kundeListe);
     }
     return "findkundetilaftale";
@@ -120,7 +126,7 @@ public class BilabonnementController {
 
   @PostMapping("/findkundetilaftale")
   public String findKundeTilAftale(@RequestParam("fornavn") String fornavn, HttpSession session){
-    ArrayList<Kunde> kundeListe = bilabonnementRepository.findAlleKunder();
+    ArrayList<Kunde> kundeListe = dataRegRepository.findAlleKunder();
     kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe,fornavn);
     session.setAttribute("kundeListe",kundeListe);
     return "redirect:/findkundetilaftale";
@@ -137,7 +143,7 @@ public class BilabonnementController {
     ArrayList<Lejebil> bilListe = (ArrayList<Lejebil>)session.getAttribute("bilListe");
     if(bilListe==null) {
       String statusLedig = "Ledig";
-      bilListe = bilabonnementRepository.findBilListeViaStatus(statusLedig);
+      bilListe = forretningsRepository.findBilListeViaStatus(statusLedig);
       session.setAttribute("bilListe",bilListe);
     }
     return "findbiltilaftale";
@@ -147,7 +153,7 @@ public class BilabonnementController {
   public String findBilTilAftale(@RequestParam("fabrikant") String fabrikant,
                                  HttpSession session){
     String bilStatus = "Ledig";
-    ArrayList<Lejebil> bilListe = bilabonnementRepository.findBilListeViaStatus(bilStatus);
+    ArrayList<Lejebil> bilListe = forretningsRepository.findBilListeViaStatus(bilStatus);
     bilListe = bilabonnementServices.søgeFunktionBiler(bilListe,fabrikant);
     session.setAttribute("bilListe",bilListe);
     return "redirect:/findbiltilaftale";
@@ -161,10 +167,10 @@ public class BilabonnementController {
 
   @GetMapping("/opretaftale")
   public String visOpretAftale(HttpSession session ,Model model){
-    Lejeaftale lejeaftale = bilabonnementRepository.newLejeaftale();
+    Lejeaftale lejeaftale = dataRegRepository.newLejeaftale();
     model.addAttribute("lejeaftale",lejeaftale);
-    model.addAttribute("kunde",bilabonnementRepository.findKundeMedID((int)session.getAttribute("kundeID")));
-    model.addAttribute("bil", bilabonnementRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
+    model.addAttribute("kunde", dataRegRepository.findKundeMedID((int)session.getAttribute("kundeID")));
+    model.addAttribute("bil", forretningsRepository.findBilMedVognnummer((int)session.getAttribute("vognnummer")));
     model.addAttribute("datoNu",bilabonnementServices.getDato());
     model.addAttribute("datoFireMaaneder",bilabonnementServices.getDatoOmFireMåneder());
     model.addAttribute("datoFemMaaneder",bilabonnementServices.getDatoOmFemMåneder());
@@ -174,21 +180,21 @@ public class BilabonnementController {
   @PostMapping("/opretaftale")
   public String opretAftale(@ModelAttribute Lejeaftale lejeaftale){   //Test om virker
     String formateretSlutdato = bilabonnementServices.formaterDato(lejeaftale.getSlutDato());
-    bilabonnementRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
-    bilabonnementRepository.setBilUdlejet(lejeaftale.getVognnummer());
+    dataRegRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
+    forretningsRepository.setBilUdlejet(lejeaftale.getVognnummer());
     return "redirect:/findkundeoverblik";
   }
 
   @GetMapping("/updateaftale/{id}")
   public String visUpdaterAftale(@PathVariable("id") int kontraktID, Model model){
-    Lejeaftale lejeaftale = bilabonnementRepository.findLejeaftaleViaKontraktID(kontraktID);
+    Lejeaftale lejeaftale = dataRegRepository.findLejeaftaleViaKontraktID(kontraktID);
     model.addAttribute("lejeaftale", lejeaftale);
     return "updateaftale";
   }
 
   @PostMapping("/updateaftale")
   public String updaterAftale(@ModelAttribute Lejeaftale lejeaftale, RedirectAttributes redirectAttributes){
-    bilabonnementRepository.updaterLejeaftaleDB(lejeaftale);
+    dataRegRepository.updaterLejeaftaleDB(lejeaftale);
     redirectAttributes.addAttribute("id",lejeaftale.getKundeID());
   return "redirect:/redirectoverblik";
   }
@@ -200,9 +206,9 @@ public class BilabonnementController {
 
   @GetMapping("/sletaftale/{id}")
   public String sletLejeaftale(@PathVariable("id") int kontraktID){
-    int vognnummer = bilabonnementRepository.findLejeaftaleViaKontraktID(kontraktID).getVognnummer();
-    bilabonnementRepository.sletLejeaftaleOgRelateret(kontraktID);
-    bilabonnementRepository.setBilLedig(vognnummer);
+    int vognnummer = dataRegRepository.findLejeaftaleViaKontraktID(kontraktID).getVognnummer();
+    dataRegRepository.sletLejeaftaleOgRelateret(kontraktID);
+    forretningsRepository.setBilLedig(vognnummer);
     return "redirect:/kundeoverblik/{id}"; //Tilbage placeholder
   }
 
@@ -211,7 +217,7 @@ public class BilabonnementController {
   @GetMapping("/bilertilskadesrapport")
   public String bilerTilSkadesrapport(Model model){
     String status = "afleveret";
-    ArrayList<Lejebil> bilListe  = bilabonnementRepository.findBilListeViaStatus(status);
+    ArrayList<Lejebil> bilListe  = forretningsRepository.findBilListeViaStatus(status);
     int antalBiler = bilListe.size();
     model.addAttribute("bilListe",bilListe);
     model.addAttribute("antalBiler",antalBiler);
@@ -221,8 +227,8 @@ public class BilabonnementController {
 
   @GetMapping("/opretskadesrapport/{id}")
   public String visOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){
-    int kontraktID = bilabonnementRepository.findKontraktIDMedVognnummer(vognnummer);
-    Skadesrapport skadesrapport = bilabonnementRepository.newSkadesrapport(kontraktID);
+    int kontraktID = dataRegRepository.findKontraktIDMedVognnummer(vognnummer);
+    Skadesrapport skadesrapport = skadeUdbedingRepository.newSkadesrapport(kontraktID);
     model.addAttribute("vognnummer", vognnummer);
     model.addAttribute("skadesrapport",skadesrapport);
 
@@ -231,17 +237,17 @@ public class BilabonnementController {
 
   @PostMapping("/opretskadesrapport")
   public String opretSkadesrapport(@ModelAttribute Skadesrapport skadesrapport, @RequestParam("vognnummer") int vognnummer){
-    bilabonnementRepository.opretSkadesrapportDB(skadesrapport);
-    bilabonnementRepository.setBilTjekket(vognnummer);
-    bilabonnementRepository.setAftaleBetaling(skadesrapport.getKontraktID());
+    skadeUdbedingRepository.opretSkadesrapportDB(skadesrapport);
+    forretningsRepository.setBilTjekket(vognnummer);
+    dataRegRepository.setAftaleBetaling(skadesrapport.getKontraktID());
     return "redirect:/bilertilskadesrapport";
   }
 
   @GetMapping("/skadesrapport/{id}")
   public String visSkaderapport(@PathVariable("id") int kontraktID, Model model){
-    int kundeID = bilabonnementRepository.findKundeIDMedKontraktID(kontraktID);
+    int kundeID = dataRegRepository.findKundeIDMedKontraktID(kontraktID);
     model.addAttribute("kundeID",kundeID);
-    Skadesrapport skadesrapport = bilabonnementRepository.findSkadesrapportViaKontraktID(kontraktID);
+    Skadesrapport skadesrapport = skadeUdbedingRepository.findSkadesrapportViaKontraktID(kontraktID);
     model.addAttribute("skadesrapport",skadesrapport);
     Skadesafgifter skadesafgifter = skadesrapport.getSkadesafgifter();
     model.addAttribute("skadesafgifter",skadesafgifter);
@@ -254,8 +260,8 @@ public class BilabonnementController {
   @GetMapping("/visbillager")
   public String visBilLager(Model model){
     String status = "ledig";
-    ArrayList<Lejebil> bilListe  = bilabonnementRepository.findBilListeViaStatus(status);
-    ArrayList<String> lavBestand = bilabonnementRepository.findLavFabrikantBestand();
+    ArrayList<Lejebil> bilListe  = forretningsRepository.findBilListeViaStatus(status);
+    ArrayList<String> lavBestand = forretningsRepository.findLavFabrikantBestand();
     int antalBiler = bilListe.size();
     model.addAttribute("bilListe",bilListe);
     model.addAttribute("antalBiler",antalBiler);
@@ -267,7 +273,7 @@ public class BilabonnementController {
   @GetMapping("/visudlejedebiler")
   public String visUdlejedeBiler(Model model){
   String status = "udlejet";
-  ArrayList<Lejebil> bilListe  = bilabonnementRepository.findBilListeViaStatus(status);
+  ArrayList<Lejebil> bilListe  = forretningsRepository.findBilListeViaStatus(status);
   int antalBiler = bilListe.size();
   double samletIndtægt = bilabonnementServices.udregnAbonnementIndtægt(bilListe);
   model.addAttribute("bilListe",bilListe);
