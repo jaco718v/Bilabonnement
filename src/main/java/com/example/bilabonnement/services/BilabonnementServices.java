@@ -66,6 +66,12 @@ public class BilabonnementServices {
           fundneKunder.add(kunde);
         }
       }
+      if (kunde.getEfternavn().length()>=antalChar) {
+        String kundeCompare = kunde.getEfternavn().substring(0, antalChar);
+        if (søgeOrd.equalsIgnoreCase(kundeCompare)){
+          fundneKunder.add(kunde);
+        }
+      }
     }
     return  fundneKunder;
   }

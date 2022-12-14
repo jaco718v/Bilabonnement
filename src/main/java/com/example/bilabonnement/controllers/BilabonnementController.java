@@ -4,7 +4,7 @@ package com.example.bilabonnement.controllers;
 import com.example.bilabonnement.model.*;
 import com.example.bilabonnement.repositories.DataRegRepository;
 import com.example.bilabonnement.repositories.ForretningsRepository;
-import com.example.bilabonnement.repositories.SkadeUdbedingRepository;
+import com.example.bilabonnement.repositories.SkadeUdbedringRepository;
 import com.example.bilabonnement.services.BilabonnementServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +19,14 @@ public class BilabonnementController {
 
   DataRegRepository dataRegRepository;
   ForretningsRepository forretningsRepository;
-  SkadeUdbedingRepository skadeUdbedingRepository;
+  SkadeUdbedringRepository skadeUdbedringRepository;
   BilabonnementServices bilabonnementServices;
 
-  public BilabonnementController(DataRegRepository r, BilabonnementServices s, ForretningsRepository f, SkadeUdbedingRepository su){
+  public BilabonnementController(DataRegRepository r, BilabonnementServices s, ForretningsRepository f, SkadeUdbedringRepository su){
     dataRegRepository = r;
     bilabonnementServices = s;
     forretningsRepository = f;
-    skadeUdbedingRepository =su;
+    skadeUdbedringRepository =su;
   }
 
 
@@ -48,8 +48,9 @@ public class BilabonnementController {
   }
 
   @PostMapping("/opretkunde")
-  public String opretKunde(@ModelAttribute Kunde kunde){
+  public String opretKunde(@ModelAttribute Kunde kunde, HttpSession session){
     dataRegRepository.opretKundeDB(kunde.getFornavn(), kunde.getEfternavn(), kunde.getKontaktnummer(), kunde.getEmail());
+    session.invalidate();
     return "redirect:/findkundeoverblik";
   }
 
@@ -125,9 +126,9 @@ public class BilabonnementController {
   }
 
   @PostMapping("/findkundetilaftale")
-  public String findKundeTilAftale(@RequestParam("fornavn") String fornavn, HttpSession session){
+  public String findKundeTilAftale(@RequestParam("navn") String navn, HttpSession session){
     ArrayList<Kunde> kundeListe = dataRegRepository.findAlleKunder();
-    kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe,fornavn);
+    kundeListe = bilabonnementServices.søgeFunktionKunder(kundeListe, navn);
     session.setAttribute("kundeListe",kundeListe);
     return "redirect:/findkundetilaftale";
   }
@@ -178,11 +179,12 @@ public class BilabonnementController {
   }
 
   @PostMapping("/opretaftale")
-  public String opretAftale(@ModelAttribute Lejeaftale lejeaftale){   //Test om virker
+  public String opretAftale(@ModelAttribute Lejeaftale lejeaftale, HttpSession session){
     String formateretSlutdato = bilabonnementServices.formaterDato(lejeaftale.getSlutDato());
     dataRegRepository.opretLejeaftaleDB(lejeaftale.getKundeID(), lejeaftale.getVognnummer(), lejeaftale.getAftaleType(), lejeaftale.getStartDato(), formateretSlutdato);
     forretningsRepository.setBilUdlejet(lejeaftale.getVognnummer());
-    return "redirect:/findkundeoverblik";
+    session.invalidate();
+    return "redirect:/findkundetilaftale";
   }
 
   @GetMapping("/updateaftale/{id}")
@@ -200,8 +202,10 @@ public class BilabonnementController {
   }
 
   @GetMapping("/redirectoverblik")
-  public String redirectOverblik(@RequestParam int id){
-    return "redirect:/kundeoverblik/{id}";
+  public String redirectOverblik(@RequestParam("id") int kundeID, RedirectAttributes attributes){
+    attributes.addAttribute("kundeID",kundeID);
+
+    return "redirect:/kundeoverblik/{kundeID}";
   }
 
   @GetMapping("/sletaftale/{id}")
@@ -228,7 +232,7 @@ public class BilabonnementController {
   @GetMapping("/opretskadesrapport/{id}")
   public String visOpretSkadesrapport(@PathVariable("id") int vognnummer, Model model){
     int kontraktID = dataRegRepository.findKontraktIDMedVognnummer(vognnummer);
-    Skadesrapport skadesrapport = skadeUdbedingRepository.newSkadesrapport(kontraktID);
+    Skadesrapport skadesrapport = skadeUdbedringRepository.newSkadesrapport(kontraktID);
     model.addAttribute("vognnummer", vognnummer);
     model.addAttribute("skadesrapport",skadesrapport);
 
@@ -237,7 +241,7 @@ public class BilabonnementController {
 
   @PostMapping("/opretskadesrapport")
   public String opretSkadesrapport(@ModelAttribute Skadesrapport skadesrapport, @RequestParam("vognnummer") int vognnummer){
-    skadeUdbedingRepository.opretSkadesrapportDB(skadesrapport);
+    skadeUdbedringRepository.opretSkadesrapportDB(skadesrapport);
     forretningsRepository.setBilTjekket(vognnummer);
     dataRegRepository.setAftaleBetaling(skadesrapport.getKontraktID());
     return "redirect:/bilertilskadesrapport";
@@ -247,7 +251,7 @@ public class BilabonnementController {
   public String visSkaderapport(@PathVariable("id") int kontraktID, Model model){
     int kundeID = dataRegRepository.findKundeIDMedKontraktID(kontraktID);
     model.addAttribute("kundeID",kundeID);
-    Skadesrapport skadesrapport = skadeUdbedingRepository.findSkadesrapportViaKontraktID(kontraktID);
+    Skadesrapport skadesrapport = skadeUdbedringRepository.findSkadesrapportViaKontraktID(kontraktID);
     model.addAttribute("skadesrapport",skadesrapport);
     Skadesafgifter skadesafgifter = skadesrapport.getSkadesafgifter();
     model.addAttribute("skadesafgifter",skadesafgifter);

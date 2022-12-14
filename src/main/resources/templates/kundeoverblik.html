@@ -13,6 +13,7 @@
 <div class="felt">
     <nav th:replace="fragments/navigationDatareg :: dataregNav">Her skal være subnav</nav>
 <div class="overskrift">Til betaling</div>
+    <span class="tilbageLink"><a th:href="@{'/findkundeoverblik/'}">Tilbage</a></span>
 <table class="table">
     <thead class="table-dark">
     <tr>
@@ -92,7 +93,7 @@
         <td><a class="btn btn-outline-warning" th:href="@{'/updateaftale/'+${aftale.kontraktID}}">Updater aftale</a></td>
     </tr>
 </table>
-<a th:href="@{'/findkundeoverblik/'}">Tilbage</a>
+
 </div>
 </body>
 </html>

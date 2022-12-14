@@ -14,22 +14,24 @@
     <nav th:replace="fragments/navigationDatareg :: dataregNav">Her skal være subnav</nav>
 
 <div class="overskrift">Opret ny kunde</div>
-    <br>
+    <br><br>
+    <div class="opretKunde">
 <form action="/opretkunde" method="post">
     <label for="fornavn-felt">Fornavn:</label>
-    <input id="fornavn-felt" name="fornavn">
-
+    <input id="fornavn-felt" name="fornavn" required>
+    <br><br>
     <label for="efternavn-felt">Efternavn:</label>
-    <input id="efternavn-felt" name="efternavn">
-
+    <input id="efternavn-felt" name="efternavn" required>
+    <br><br>
     <label for="kontakt-felt">Kontaktnummer:</label>
-    <input id="kontakt-felt" name="kontaktnummer">
-
+    <input id="kontakt-felt" name="kontaktnummer" required>
+    <br><br>
     <label for="email-felt">Email:</label>
-    <input id="email-felt" name="email">
-
-    <button type="submit">Opret kunde</button>
+    <input id="email-felt" name="email" required>
+    <br><br>
+    <button class="btn btn-success" type="submit">Opret kunde</button>
 </form>
+    </div>
 </div>
 </body>
 </html>

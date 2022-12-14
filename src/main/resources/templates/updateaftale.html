@@ -14,14 +14,18 @@
 <div class="felt">
     <nav th:replace="fragments/navigationDatareg :: dataregNav">Her skal være subnav</nav>
     <div class="overskrift">Updater aftale</div>
+    <span class="tilbageLink"><a th:href="@{'/kundeoverblik/'+ ${lejeaftale.kundeID}}">Tilbage</a></span> <br>
+
     <div class="normalTekst">
 <form action="/updateaftale" method="post">
 
     <label for="kundeID-felt">KundeID:</label>
     <input id="kundeID-felt" name="kundeID" th:value="${lejeaftale.kundeID}" disabled> <br><br>
+    <input type="hidden" name="kundeID" th:value="${lejeaftale.kundeID}">
 
     <label for="vognnummer-felt">Vognnummer</label>
     <input id="vognnummer-felt" name="vognnummer" th:value="${lejeaftale.vognnummer}" disabled> <br><br>
+    <input type="hidden" name="vognnummer" th:value="${lejeaftale.vognnummer}">
 
     <label for="Unlimited">Unlimited:</label>
     <input type="radio" id="Unlimited" name="aftaletype" value="Unlimited" required> <br><br>
@@ -30,10 +34,10 @@
     <input type="radio" id="Limited" name="aftaletype" value="Limited" required> <br><br>
 
     <label for="startdato-felt">Startdato:</label>
-    <input  id="startdato-felt" name="startdato" th:value="${lejeaftale.startDato}"> <br><br>
+    <input  id="startdato-felt" name="startdato" th:value="${lejeaftale.startDato}" required> <br><br>
 
     <label for="slutdato-felt">slutdato:</label>
-    <input id="slutdato-felt" name="slutdato" th:value="${lejeaftale.slutDato}"> <br><br>
+    <input id="slutdato-felt" name="slutdato" th:value="${lejeaftale.slutDato}" required> <br><br>
 
     <button class="btn btn-outline-primary" type="submit">Updater</button>
 

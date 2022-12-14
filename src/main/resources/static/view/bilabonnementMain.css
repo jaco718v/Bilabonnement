@@ -127,6 +127,12 @@ div.normalTekst{
     margin-top: 5px;
 }
 
+div.opretKunde{
+    position: relative;
+    right: 42%;
+    text-align: right;
+}
+
 div.alarmOuter{
     border-style: solid;
     border-radius: 10px;

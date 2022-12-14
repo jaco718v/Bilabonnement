@@ -17,13 +17,14 @@
 
 
 <form action="/findbiltilaftale" method="post">
-  <input type="hidden" name="kundeID" th:value="${kundeID}">
+  <input type="hidden" name="kundeID" th:value="${session.kundeID}">
 
   <label for="fabrikant-felt"></label>
   <input id="fabrikant-felt" name="fabrikant">
 
-  <button type="submit">Søg med fabrikant</button>
+  <button class="btn btn-primary" type="submit">Søg med fabrikant</button>
 </form>
+
 
   <span class="tilbageLink"><a th:href="@{'/findkundetilaftale/'}">Tilbage</a></span>
 

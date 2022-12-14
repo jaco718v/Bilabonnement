@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 @Repository
-public class SkadeUdbedingRepository {
+public class SkadeUdbedringRepository {
   @Value("${spring.datasource.url}")
   private String db_url;
 
@@ -96,6 +96,6 @@ public class SkadeUdbedingRepository {
   }
 
   public Skadesrapport newSkadesrapport(int kontraktID){
-    return newSkadesrapport(kontraktID);
+    return new Skadesrapport(kontraktID);
   }
 }
