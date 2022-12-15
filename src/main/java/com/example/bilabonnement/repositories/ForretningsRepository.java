@@ -73,7 +73,7 @@ public class ForretningsRepository {
     ArrayList<Lejebil> BilListeAfStatus = new ArrayList<>();
     try {
       Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-      String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status=? ORDER BY model";
+      String sqlQuery = "SELECT * FROM lejebiler WHERE lejebil_status=? ORDER BY fabrikant, model";
       PreparedStatement pstm = conn.prepareStatement(sqlQuery);
       pstm.setString(1, status);
       ResultSet resultSet = pstm.executeQuery();

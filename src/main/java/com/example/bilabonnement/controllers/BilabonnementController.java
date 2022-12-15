@@ -29,7 +29,7 @@ public class BilabonnementController {
     skadeUdbedringRepository =su;
   }
 
-
+  /* Alt koden er skrevet af Jacob Anker-Møller*/
 
 
   @GetMapping("/")

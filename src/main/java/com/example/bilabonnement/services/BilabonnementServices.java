@@ -60,13 +60,15 @@ public class BilabonnementServices {
     ArrayList<Kunde> fundneKunder = new ArrayList<>();
     int antalChar = søgeOrd.length();
     for(Kunde kunde: kundeliste){
+      boolean found = false;
       if (kunde.getFornavn().length()>=antalChar) {
         String kundeCompare = kunde.getFornavn().substring(0, antalChar);
         if (søgeOrd.equalsIgnoreCase(kundeCompare)){
           fundneKunder.add(kunde);
+          found=true;
         }
       }
-      if (kunde.getEfternavn().length()>=antalChar) {
+      if (!found && kunde.getEfternavn().length()>=antalChar) {
         String kundeCompare = kunde.getEfternavn().substring(0, antalChar);
         if (søgeOrd.equalsIgnoreCase(kundeCompare)){
           fundneKunder.add(kunde);

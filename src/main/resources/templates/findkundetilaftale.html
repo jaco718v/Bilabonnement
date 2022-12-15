@@ -24,6 +24,7 @@
 <table class="table">
     <thead class="table-dark">
     <tr>
+        <th scope="col">ID</th>
         <th scope="col">Fornavn</th>
         <th scope="col">Efternavn</th>
         <th scope="col">Kontakt</th>
@@ -32,6 +33,7 @@
     </tr>
     </thead>
 <tr th:each="kunde : ${session.kundeListe}">
+    <td th:text="${kunde.kundeID}"></td>
     <td th:text="${kunde.fornavn}"></td>
     <td th:text="${kunde.efternavn}"></td>
     <td th:text="${kunde.kontaktnummer}"></td>
